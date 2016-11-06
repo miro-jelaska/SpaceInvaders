@@ -16,8 +16,6 @@ public class InputHandler implements KeyListener {
         }
     }
 
-    public Key up = new Key();
-    public Key down = new Key();
     public Key left = new Key();
     public Key right = new Key();
     public Key space = new Key();
@@ -37,12 +35,8 @@ public class InputHandler implements KeyListener {
     }
 
     public void toggleKey(int keyCode, boolean isPressed){
-        if(keyCode == KeyEvent.VK_W)
-            up.toggle(isPressed);
         if(keyCode == KeyEvent.VK_D)
             right.toggle(isPressed);
-        if(keyCode == KeyEvent.VK_S)
-            down.toggle(isPressed);
         if(keyCode == KeyEvent.VK_A)
             left.toggle(isPressed);
         if(keyCode == KeyEvent.VK_SPACE)

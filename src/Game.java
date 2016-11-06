@@ -79,9 +79,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void update(){
-        for(int i=0; i < pixels.length; i++){
-            pixels[i]=(int)(Math.random()* Integer.MAX_VALUE);
-        }
+//        for(int i=0; i < pixels.length; i++){
+//            pixels[i]=(int)(Math.random()* Integer.MAX_VALUE);
+//        }
 
         if(input.right.isPressed()){
             heroShip.MoveRight();
@@ -105,10 +105,10 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(35, 31, 32));
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         heroShip.paintComponent(g);
         for(Projectile projectile: projectiles)
             projectile.paintComponent(g);
