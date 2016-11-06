@@ -1,4 +1,9 @@
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class HeroShip {
@@ -13,6 +18,16 @@ public class HeroShip {
     }
 
     public Projectile Shoot(){
+        try {
+            InputStream in = new FileInputStream("src/resources/laser.wav");
+            AudioStream audioStream = new AudioStream(in);
+            AudioPlayer.player.start(audioStream);
+        }
+        catch (Exception e){
+            System.out.println("Sound error");
+        }
+
+
         return new Projectile(new Point((int)location.getX(), (int)(location.getY() - 60 * drawingScale)));
     }
 
