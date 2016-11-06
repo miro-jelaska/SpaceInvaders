@@ -15,7 +15,7 @@ public class Projectile extends JComponent {
 
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.blue);
+        g2.setColor(Color.red);
         double scale = 0.2;
         Point[] projectalDrawingPoints = getShapePoints();
         g2.fillPolygon(
