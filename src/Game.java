@@ -7,6 +7,9 @@ import java.util.*;
 import java.util.List;
 
 public class Game extends Canvas implements Runnable {
+    public static final int CANVAS_WIDTH = 500;
+    public static final int CANVAS_HEIGHT = 700;
+    private static long currentUpateCount;
     private static final long serialVersionUID = 1L;
     private JFrame frame;
     private boolean running = false;
@@ -18,7 +21,7 @@ public class Game extends Canvas implements Runnable {
     private List<Projectile> projectiles;
 
     public Game(){
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
 
         frame = new JFrame("game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,7 +29,7 @@ public class Game extends Canvas implements Runnable {
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        frame.setSize(new Dimension(500, 500));
+        frame.setSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
         frame.setVisible(true);
         frame.add(this, BorderLayout.CENTER);
         input = new InputHandler(this);
@@ -35,7 +38,9 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-
+    public static long GetCurrentUpateCount(){
+        return currentUpateCount;
+    }
     public synchronized void start(){
         running = true;
         new Thread(this).start();
@@ -50,15 +55,18 @@ public class Game extends Canvas implements Runnable {
         int updates = 0;
 
         long lastTimer = System.currentTimeMillis();
+        this.currentUpateCount = lastTime;
         double delta = 0;
         while(running){
             long now = System.nanoTime();
+
             delta+= (now - lastTime) / nsPerUpdate;
             lastTime = now;
             boolean shouldRender = false;
 
             while(delta >= 1){
                 updates++;
+                this.currentUpateCount++;
                 update();
                 delta--;
                 shouldRender = true;
@@ -83,14 +91,16 @@ public class Game extends Canvas implements Runnable {
 //            pixels[i]=(int)(Math.random()* Integer.MAX_VALUE);
 //        }
 
-        if(input.right.isPressed()){
+        if(input.right.isKeyDown()){
             heroShip.MoveRight();
         }
-        if(input.left.isPressed()){
+        if(input.left.isKeyDown()){
             heroShip.MoveLeft();
         }
-        if(input.space.isPressed()){
-            projectiles.add(heroShip.Shoot());
+        if(input.space.isKeyDown()){
+            Projectile maybeProjectile = heroShip.Shoot();
+            if(maybeProjectile != null)
+                projectiles.add(maybeProjectile);
         }
 
         for(Projectile projectile: projectiles)

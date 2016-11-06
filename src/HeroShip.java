@@ -7,17 +7,36 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 public class HeroShip {
-    private Point location = new Point(150, 475);
-    private double drawingScale = 0.5;
+    private Point location = new Point(Game.CANVAS_WIDTH/2, Game.CANVAS_HEIGHT - 30);
+    private static final double drawingScale = 0.5;
 
     public void MoveLeft(){
-        this.location.setLocation(this.location.getX() - 10, this.location.getY());
+        boolean isOnTheLeftEdgeOfCanvas = this.getPolygon().getBounds2D().getMinX() <= 0;
+        if(isOnTheLeftEdgeOfCanvas)
+            this.location.setLocation(50*drawingScale, this.location.getY());
+        else
+            this.location.setLocation(this.location.getX() - 10, this.location.getY());
     }
     public void MoveRight(){
-        this.location.setLocation(this.location.getX() + 10, this.location.getY());
+        boolean isOnTheRightEdgeOfCanvas = this.getPolygon().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+        if(isOnTheRightEdgeOfCanvas)
+            this.location.setLocation(Game.CANVAS_WIDTH - 50*drawingScale, this.location.getY());
+        else
+            this.location.setLocation(this.location.getX() + 10, this.location.getY());
     }
 
+    private final int shootCooldownUpdateTime = 15;
+    private long lastTimeShoot;
     public Projectile Shoot(){
+        if(Game.GetCurrentUpateCount() - lastTimeShoot < shootCooldownUpdateTime)
+            return null;
+
+        lastTimeShoot = Game.GetCurrentUpateCount();
+        this.playSound_shoot();
+
+        return new Projectile(new Point((int)location.getX(), (int)(location.getY() - 60 * drawingScale)));
+    }
+    private void playSound_shoot(){
         try {
             InputStream in = new FileInputStream("src/resources/laser.wav");
             AudioStream audioStream = new AudioStream(in);
@@ -26,9 +45,6 @@ public class HeroShip {
         catch (Exception e){
             System.out.println("Sound error");
         }
-
-
-        return new Projectile(new Point((int)location.getX(), (int)(location.getY() - 60 * drawingScale)));
     }
 
 
@@ -68,7 +84,13 @@ public class HeroShip {
                 new Point(30, -70),
                 new Point(10, -70),
                 new Point(10, -60)
-
         };
+    }
+    private Polygon getPolygon(){
+        Point[] heroShipDrawingPoints = getShapePoints();
+        return new Polygon(
+                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getX() * drawingScale) + location.x).toArray(),
+                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getY() * drawingScale) + location.y).toArray(),
+                heroShipDrawingPoints.length);
     }
 }

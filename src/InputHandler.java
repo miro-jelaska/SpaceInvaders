@@ -7,12 +7,12 @@ public class InputHandler implements KeyListener {
     }
 
     public class Key{
-        private boolean isPressed = false;
-        public void toggle(boolean isPressed){
-            this.isPressed = isPressed;
+        private boolean isKeyDown = false;
+        public void toggle(boolean isKeyDown){
+            this.isKeyDown = isKeyDown;
         }
-        public boolean isPressed(){
-            return isPressed;
+        public boolean isKeyDown(){
+            return isKeyDown;
         }
     }
 
@@ -21,9 +21,7 @@ public class InputHandler implements KeyListener {
     public Key space = new Key();
 
     public void keyTyped(KeyEvent e) {
-
     }
-
 
     public void keyPressed(KeyEvent e) {
         toggleKey(e.getKeyCode(), true);

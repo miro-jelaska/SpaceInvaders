@@ -8,8 +8,6 @@ public class Projectile extends JComponent {
     }
     private Point location = new Point();
 
-
-
     public void Update(){
         int delta = 5;
         this.location.setLocation(this.location.getX(), this.location.getY() - delta);
