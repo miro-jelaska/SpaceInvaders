@@ -2,19 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.util.*;
 import java.util.List;
 
 public class Game extends Canvas implements Runnable {
     public static final int CANVAS_WIDTH = 500;
     public static final int CANVAS_HEIGHT = 700;
-    private static long currentUpateCount;
+    private static long currentUpdateCount;
     private static final long serialVersionUID = 1L;
     private JFrame frame;
     private boolean running = false;
     private BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     private InputHandler input;
     private HeroShip heroShip;
@@ -39,7 +37,7 @@ public class Game extends Canvas implements Runnable {
 
 
     public static long GetCurrentUpateCount(){
-        return currentUpateCount;
+        return currentUpdateCount;
     }
     public synchronized void start(){
         running = true;
@@ -55,7 +53,7 @@ public class Game extends Canvas implements Runnable {
         int updates = 0;
 
         long lastTimer = System.currentTimeMillis();
-        this.currentUpateCount = lastTime;
+        this.currentUpdateCount = lastTime;
         double delta = 0;
         while(running){
             long now = System.nanoTime();
@@ -66,7 +64,7 @@ public class Game extends Canvas implements Runnable {
 
             while(delta >= 1){
                 updates++;
-                this.currentUpateCount++;
+                this.currentUpdateCount++;
                 update();
                 delta--;
                 shouldRender = true;
@@ -87,17 +85,13 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void update(){
-//        for(int i=0; i < pixels.length; i++){
-//            pixels[i]=(int)(Math.random()* Integer.MAX_VALUE);
-//        }
-
         if(input.right.isKeyDown()){
             heroShip.MoveRight();
         }
         if(input.left.isKeyDown()){
             heroShip.MoveLeft();
         }
-        if(input.space.isKeyDown()){
+        if(input.space.isKeyDown() && input.space.getKeyDownUpdateTime() == 0){
             Projectile maybeProjectile = heroShip.Shoot();
             if(maybeProjectile != null)
                 projectiles.add(maybeProjectile);
@@ -118,7 +112,6 @@ public class Game extends Canvas implements Runnable {
         g.setColor(new Color(35, 31, 32));
         g.fillRect(0, 0, getWidth(), getHeight());
 
-//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         heroShip.paintComponent(g);
         for(Projectile projectile: projectiles)
             projectile.paintComponent(g);

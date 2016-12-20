@@ -8,11 +8,19 @@ public class InputHandler implements KeyListener {
 
     public class Key{
         private boolean isKeyDown = false;
+        private int keyDownUpdateTime = 0;
         public void toggle(boolean isKeyDown){
+            if(this.isKeyDown && isKeyDown)
+                keyDownUpdateTime++;
+            else
+                keyDownUpdateTime = 0;
             this.isKeyDown = isKeyDown;
         }
         public boolean isKeyDown(){
             return isKeyDown;
+        }
+        public int getKeyDownUpdateTime(){
+            return keyDownUpdateTime;
         }
     }
 
@@ -22,11 +30,9 @@ public class InputHandler implements KeyListener {
 
     public void keyTyped(KeyEvent e) {
     }
-
     public void keyPressed(KeyEvent e) {
         toggleKey(e.getKeyCode(), true);
     }
-
 
     public void keyReleased(KeyEvent e) {
         toggleKey(e.getKeyCode(), false);

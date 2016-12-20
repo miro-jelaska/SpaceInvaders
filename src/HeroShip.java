@@ -9,23 +9,27 @@ import java.util.Arrays;
 public class HeroShip {
     private Point location = new Point(Game.CANVAS_WIDTH/2, Game.CANVAS_HEIGHT - 30);
     private static final double drawingScale = 0.5;
+    private static final int deltaForXMovement = 10;
+    private static final int shootCooldownUpdateTime = 30;
+    private static int debugCounter = 0;
 
     public void MoveLeft(){
         boolean isOnTheLeftEdgeOfCanvas = this.getPolygon().getBounds2D().getMinX() <= 0;
+        System.out.println(debugCounter++ + ": " + this.getPolygon().getBounds2D().getMaxX());
         if(isOnTheLeftEdgeOfCanvas)
-            this.location.setLocation(50*drawingScale, this.location.getY());
+            this.location.setLocation(this.getPolygon().getBounds2D().getWidth()*drawingScale + 100, this.location.getY());
         else
-            this.location.setLocation(this.location.getX() - 10, this.location.getY());
+            this.location.setLocation(this.location.getX() - deltaForXMovement, this.location.getY());
     }
     public void MoveRight(){
         boolean isOnTheRightEdgeOfCanvas = this.getPolygon().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+        System.out.println(debugCounter++ + ": " + this.getPolygon().getBounds2D().getMaxX());
         if(isOnTheRightEdgeOfCanvas)
-            this.location.setLocation(Game.CANVAS_WIDTH - 50*drawingScale, this.location.getY());
+            this.location.setLocation(Game.CANVAS_WIDTH - this.getPolygon().getBounds2D().getWidth()*drawingScale, this.location.getY());
         else
-            this.location.setLocation(this.location.getX() + 10, this.location.getY());
+            this.location.setLocation(this.location.getX() + deltaForXMovement, this.location.getY());
     }
 
-    private final int shootCooldownUpdateTime = 15;
     private long lastTimeShoot;
     public Projectile Shoot(){
         if(Game.GetCurrentUpateCount() - lastTimeShoot < shootCooldownUpdateTime)
