@@ -1,3 +1,4 @@
+import javax.naming.directory.InvalidAttributeIdentifierException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -8,15 +9,17 @@ import java.util.List;
 public class Game extends Canvas implements Runnable {
     public static final int CANVAS_WIDTH = 500;
     public static final int CANVAS_HEIGHT = 700;
+    public static final int INVADER_COLUMN_WIDTH = 80;
+    public static final int INVADER_ROW_HEIGHT = 50;
     private static long currentUpdateCount;
     private static final long serialVersionUID = 1L;
     private JFrame frame;
     private boolean running = false;
-    private BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
     private InputHandler input;
     private HeroShip heroShip;
     private List<Projectile> projectiles;
+    private List<InvaderShip> invaderShips;
 
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -33,6 +36,8 @@ public class Game extends Canvas implements Runnable {
         input = new InputHandler(this);
         heroShip = new HeroShip();
         projectiles = new ArrayList<Projectile>();
+        invaderShips = new ArrayList<InvaderShip>();
+        invaderShips.add(new InvaderShip());
     }
 
 
@@ -99,6 +104,15 @@ public class Game extends Canvas implements Runnable {
 
         for(Projectile projectile: projectiles)
             projectile.Update();
+
+        Projectile[] deadProjectiles =
+                this.projectiles.stream()
+                        .filter(projectile -> projectile.IsOutsideWindow())
+                        .toArray(Projectile[]::new);
+        for(Projectile deadProjectile: deadProjectiles){
+            int indexOfDeadProjectile = projectiles.indexOf(deadProjectile);
+            projectiles.remove(indexOfDeadProjectile);
+        }
     }
 
     public void render(){
@@ -115,6 +129,8 @@ public class Game extends Canvas implements Runnable {
         heroShip.paintComponent(g);
         for(Projectile projectile: projectiles)
             projectile.paintComponent(g);
+        for(InvaderShip invaderShip: invaderShips)
+            invaderShip.paintComponent(g);
         g.dispose();
         bs.show();
     }

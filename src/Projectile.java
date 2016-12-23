@@ -32,4 +32,16 @@ public class Projectile extends JComponent {
                 new Point(-10, -20),
         };
     }
+
+    private Polygon getPolygon(){
+        Point[] heroShipDrawingPoints = getShapePoints();
+        return new Polygon(
+                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getX()) + location.x).toArray(),
+                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getY()) + location.y).toArray(),
+                heroShipDrawingPoints.length);
+    }
+
+    public boolean IsOutsideWindow(){
+        return this.getPolygon().getBounds2D().getMaxY() < 0;
+    }
 }
