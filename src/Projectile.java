@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
 public class Projectile extends JComponent {
@@ -16,32 +18,17 @@ public class Projectile extends JComponent {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.red);
-        double scale = 0.2;
-        Point[] projectalDrawingPoints = getShapePoints();
-        g2.fillPolygon(
-                Arrays.stream(projectalDrawingPoints).mapToInt(point -> (int)(point.getX() * scale) + location.x).toArray(),
-                Arrays.stream(projectalDrawingPoints).mapToInt(point -> (int)(point.getY() * scale) + location.y).toArray(),
-                projectalDrawingPoints.length);
+        g2.fill(getArea());
     }
 
-    private static Point[] getShapePoints(){
-        return new Point[]{
-                new Point( -10,  0),
-                new Point( 10,   0),
-                new Point( 10, -20),
-                new Point(-10, -20),
-        };
-    }
-
-    private Polygon getPolygon(){
-        Point[] heroShipDrawingPoints = getShapePoints();
-        return new Polygon(
-                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getX()) + location.x).toArray(),
-                Arrays.stream(heroShipDrawingPoints).mapToInt(point -> (int)(point.getY()) + location.y).toArray(),
-                heroShipDrawingPoints.length);
+    public Area getArea(){
+        int width = 10;
+        int height = 15;
+        double scale = 0.5;
+        return new Area(new Rectangle(location.x, location.y, (int)(width * scale), (int)(height * scale)));
     }
 
     public boolean IsOutsideWindow(){
-        return this.getPolygon().getBounds2D().getMaxY() < 0;
+        return this.getArea().getBounds2D().getMaxY() < 0;
     }
 }

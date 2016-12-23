@@ -1,22 +1,40 @@
 import java.awt.*;
 import java.awt.geom.Area;
+import java.util.*;
+import java.util.List;
 
 public class InvaderShip {
     private static final double drawingScale = 0.30;
     private static final int deltaForXMovement = 10;
-    private static int currentColumn = 2;
-    private static int currentRow = 2;
+    private int currentColumn;
+    private int currentRow;
+
+    public InvaderShip(int row, int column){
+        this.currentRow = row;
+        this.currentColumn = column;
+    }
+
+    public boolean IsHitByProjectile(List<Projectile> projectiles){
+        return
+            projectiles.stream()
+            .anyMatch(projectile -> {
+                Area a = this.getShape();
+                a.intersect(projectile.getArea());
+                return !a.isEmpty();
+            });
+    }
 
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.green);
-        Area heroShipDrawingPoints = getShapePoints();
+        Area heroShipDrawingPoints = getShape();
         g2.fill(heroShipDrawingPoints);
     }
 
-    private Area getShapePoints(){
+    private Area getShape(){
         int xTranslation = currentColumn*Game.INVADER_COLUMN_WIDTH;
         int yTranslation = currentRow*Game.INVADER_ROW_HEIGHT;
+
         Area a = new Area(new Rectangle(xTranslation, yTranslation, (int)(110*drawingScale),(int)(80*drawingScale)));
         Area leftEye = new Area(new Rectangle(
             (int)(30*drawingScale) + xTranslation, (int)(40*drawingScale) + yTranslation,

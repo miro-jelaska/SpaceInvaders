@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class HeroShip {
     private Point location = new Point(Game.CANVAS_WIDTH/2, Game.CANVAS_HEIGHT - 30);
     private static final double drawingScale = 0.5;
-    private static final int deltaForXMovement = 10;
+    private static final int deltaForXMovement = 5;
     private static final int shootCooldownUpdateTime = 30;
 
     public void MoveLeft(){

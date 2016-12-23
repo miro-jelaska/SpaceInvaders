@@ -37,7 +37,10 @@ public class Game extends Canvas implements Runnable {
         heroShip = new HeroShip();
         projectiles = new ArrayList<Projectile>();
         invaderShips = new ArrayList<InvaderShip>();
-        invaderShips.add(new InvaderShip());
+        invaderShips.add(new InvaderShip(1,1));
+        invaderShips.add(new InvaderShip(0,0));
+        invaderShips.add(new InvaderShip(2,2));
+        invaderShips.add(new InvaderShip(3,3));
     }
 
 
@@ -112,6 +115,15 @@ public class Game extends Canvas implements Runnable {
         for(Projectile deadProjectile: deadProjectiles){
             int indexOfDeadProjectile = projectiles.indexOf(deadProjectile);
             projectiles.remove(indexOfDeadProjectile);
+        }
+
+        InvaderShip[] deadInvaders =
+                this.invaderShips.stream()
+                        .filter(invader -> invader.IsHitByProjectile(projectiles))
+                        .toArray(InvaderShip[]::new);
+        for(InvaderShip deadInvader: deadInvaders){
+            int indexOfDeadInvader = invaderShips.indexOf(deadInvader);
+            invaderShips.remove(indexOfDeadInvader);
         }
     }
 
