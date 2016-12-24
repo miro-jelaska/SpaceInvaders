@@ -2,22 +2,18 @@ package actors;
 
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import game.*;
 
 public class InvaderShip {
     private static final double drawingScale = 0.20;
-    private static final int deltaForXMovement = 10;
-    private int currentColumn;
-    private int currentRow;
+    private static final int deltaForXMovement = 1;
+    private static final int movementSpeed = 10;
+    private long lastTimeShoot = 0;
+    private Point location;
 
     public InvaderShip(int row, int column){
-        this.currentRow = row;
-        this.currentColumn = column;
+        location = new Point(column * Game.INVADER_COLUMN_WIDTH, row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
     }
 
     public boolean IsHitByProjectile(Projectile projectile){
@@ -33,19 +29,21 @@ public class InvaderShip {
         g2.fill(heroShipDrawingPoints);
     }
 
-    private int getXTranslation(){
-        return currentColumn * Game.INVADER_COLUMN_WIDTH;
+    public void Update(){
+        if((Game.GetCurrentUpateCount() - lastTimeShoot) < movementSpeed)
+            return;
+
+        lastTimeShoot = Game.GetCurrentUpateCount();
+        location.setLocation(location.getX() + deltaForXMovement, location.getY());
     }
-    private int getYTranslation(){
-        return currentRow * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP;
-    }
+
     private Area getShape(){
 
         Area area = new Area(new Rectangle(
-            getXTranslation(), getYTranslation(),
+            this.location.x, this.location.y,
             (int)(110*drawingScale),(int)(80*drawingScale)));
 
-        Arrays.stream((new Area[]{
+        Arrays.stream(new Area[]{
             getSingleShapePeace(30, 40, 10, 10),
             getSingleShapePeace(70, 40, 10, 10),
 
@@ -74,13 +72,13 @@ public class InvaderShip {
 
             getSingleShapePeace(0, 70, 30, 10),
             getSingleShapePeace((110 - 30), 70, 30, 10),
-        })).forEach(area::subtract);
+        }).forEach(area::subtract);
 
         return area;
     }
     private Area getSingleShapePeace(int xPosition, int yPosition, int width, int height){
         return new Area(new Rectangle(
-                (int)(xPosition*drawingScale) + getXTranslation(), (int)(yPosition*drawingScale) + getYTranslation(),
+                (int)(xPosition*drawingScale) + this.location.x, (int)(yPosition*drawingScale) + this.location.y,
                 (int)(width*drawingScale), (int)(height*drawingScale)));
     }
 }

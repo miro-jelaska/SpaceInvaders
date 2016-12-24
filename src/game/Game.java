@@ -117,6 +117,9 @@ public class Game extends Canvas implements Runnable {
                 projectiles.add(maybeProjectile);
         }
 
+        for(InvaderShip invader: invaderShips)
+            invader.Update();
+
         for(Projectile projectile: projectiles)
             projectile.Update();
 

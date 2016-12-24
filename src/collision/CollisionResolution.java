@@ -23,6 +23,10 @@ public class CollisionResolution {
         this.allInvaders    = allInvaders;
     }
 
+    public void Resolve(){
+        actions.forEach(action -> action.Execute());
+        actions.clear();
+    }
 
     public void InvaderIsHitByProjectile(InvaderShip invader, Projectile projectile){
         actions.add(new ExplodeInvaderShip(allInvaders, invader));
@@ -31,10 +35,5 @@ public class CollisionResolution {
 
     public void ProjectileOutOfWindow(Projectile projectile){
         actions.add(new RemoveProjectileOutOfWindow(allProjectiles, projectile));
-    }
-
-    public void Resolve(){
-        actions.forEach(action -> action.Execute());
-        actions.clear();
     }
 }
