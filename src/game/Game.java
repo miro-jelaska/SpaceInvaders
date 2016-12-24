@@ -15,8 +15,9 @@ import java.util.List;
 public class Game extends Canvas implements Runnable {
     public static final int CANVAS_WIDTH = 500;
     public static final int CANVAS_HEIGHT = 700;
-    public static final int INVADER_COLUMN_WIDTH = 80;
+    public static final int INVADER_COLUMN_WIDTH = 50;
     public static final int INVADER_ROW_HEIGHT = 50;
+    public static final int INVADER_WINDOW_MARGIN_TOP = 50;
     private static long currentUpdateCount;
     private static final long serialVersionUID = 1L;
     private JFrame frame;
@@ -46,10 +47,9 @@ public class Game extends Canvas implements Runnable {
         heroShip = new HeroShip();
         projectiles = new ArrayList<Projectile>();
         invaderShips = new ArrayList<InvaderShip>();
-        invaderShips.add(new InvaderShip(1,1));
-        invaderShips.add(new InvaderShip(0,0));
-        invaderShips.add(new InvaderShip(2,2));
-        invaderShips.add(new InvaderShip(3,3));
+        for (int row = 0; row<5; row++)
+            for(int column = 0; column<8; column++)
+                invaderShips.add(new InvaderShip(row, column));
 
         this.collisionResolution = new CollisionResolution(heroShip, projectiles, invaderShips);
         this.collisionDetection = new CollisionDetection(heroShip, projectiles, invaderShips, collisionResolution);
@@ -111,7 +111,7 @@ public class Game extends Canvas implements Runnable {
         if(input.left.isKeyDown()){
             heroShip.MoveLeft();
         }
-        if(input.space.isKeyDown() && input.space.getKeyDownUpdateTime() == 0){
+        if(input.space.isKeyDown()){
             Projectile maybeProjectile = heroShip.Shoot();
             if(maybeProjectile != null)
                 projectiles.add(maybeProjectile);
