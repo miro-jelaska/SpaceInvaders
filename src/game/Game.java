@@ -47,7 +47,7 @@ public class Game extends Canvas implements Runnable {
         heroShip = new HeroShip();
         projectiles = new ArrayList<Projectile>();
         invaderShips = new ArrayList<InvaderShip>();
-        for (int row = 0; row<5; row++)
+        for (int row = 0; row < 5; row++)
             for(int column = 0; column<8; column++)
                 invaderShips.add(new InvaderShip(row, column));
 
