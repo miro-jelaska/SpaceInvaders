@@ -1,7 +1,9 @@
+package actors;
+
 import java.awt.*;
 import java.awt.geom.Area;
-import java.util.*;
 import java.util.List;
+import game.*;
 
 public class InvaderShip {
     private static final double drawingScale = 0.30;
@@ -14,17 +16,13 @@ public class InvaderShip {
         this.currentColumn = column;
     }
 
-    public boolean IsHitByProjectile(List<Projectile> projectiles){
-        return
-            projectiles.stream()
-            .anyMatch(projectile -> {
-                Area a = this.getShape();
-                a.intersect(projectile.getArea());
-                return !a.isEmpty();
-            });
+    public boolean IsHitByProjectile(Projectile projectile){
+        Area shipArea = this.getShape();
+        shipArea.intersect(projectile.getArea());
+        return !shipArea.isEmpty();
     }
 
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.green);
         Area heroShipDrawingPoints = getShape();
@@ -32,9 +30,9 @@ public class InvaderShip {
     }
 
     private Area getShape(){
-        int xTranslation = currentColumn*Game.INVADER_COLUMN_WIDTH;
-        int yTranslation = currentRow*Game.INVADER_ROW_HEIGHT;
-
+        int xTranslation = currentColumn * Game.INVADER_COLUMN_WIDTH;
+        int yTranslation = currentRow * Game.INVADER_ROW_HEIGHT;
+        //TODO refactor
         Area a = new Area(new Rectangle(xTranslation, yTranslation, (int)(110*drawingScale),(int)(80*drawingScale)));
         Area leftEye = new Area(new Rectangle(
             (int)(30*drawingScale) + xTranslation, (int)(40*drawingScale) + yTranslation,
@@ -72,8 +70,8 @@ public class InvaderShip {
         return a;
     }
     private Area getSingleShapePeace(int xPosition, int yPosition, int width, int height){
-        int xTranslation = currentColumn*Game.INVADER_COLUMN_WIDTH;
-        int yTranslation = currentRow*Game.INVADER_ROW_HEIGHT;
+        int xTranslation = currentColumn * Game.INVADER_COLUMN_WIDTH;
+        int yTranslation = currentRow * Game.INVADER_ROW_HEIGHT;
 
         return new Area(new Rectangle(
                 (int)(xPosition*drawingScale) + xTranslation, (int)(yPosition*drawingScale) + yTranslation,

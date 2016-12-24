@@ -1,10 +1,13 @@
+package actors;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
+import game.*;
 
-public class Projectile extends JComponent {
+public class Projectile {
     public Projectile(Point location){
         this.location = location;
     }
@@ -15,7 +18,7 @@ public class Projectile extends JComponent {
         this.location.setLocation(this.location.getX(), this.location.getY() - delta);
     }
 
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.red);
         g2.fill(getArea());

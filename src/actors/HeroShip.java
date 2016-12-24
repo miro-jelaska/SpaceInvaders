@@ -1,5 +1,10 @@
+package actors;
+
+import game.Game;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+import game.*;
+
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -7,7 +12,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 public class HeroShip {
-    private Point location = new Point(Game.CANVAS_WIDTH/2, Game.CANVAS_HEIGHT - 30);
+    private Point location = new Point(Game.CANVAS_WIDTH / 2, Game.CANVAS_HEIGHT - 30);
     private static final double drawingScale = 0.5;
     private static final int deltaForXMovement = 5;
     private static final int shootCooldownUpdateTime = 30;
@@ -22,7 +27,7 @@ public class HeroShip {
     public void MoveRight(){
         boolean isOnTheRightEdgeOfCanvas = this.getPolygon().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
         if(isOnTheRightEdgeOfCanvas)
-            this.location.setLocation(Game.CANVAS_WIDTH - this.getPolygon().getBounds2D().getWidth()*drawingScale, this.location.getY());
+            this.location.setLocation(Game.CANVAS_WIDTH - this.getPolygon().getBounds2D().getWidth() * drawingScale, this.location.getY());
         else
             this.location.setLocation(this.location.getX() + deltaForXMovement, this.location.getY());
     }
@@ -49,7 +54,7 @@ public class HeroShip {
     }
 
 
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.white);
         Point[] heroShipDrawingPoints = getShapePoints();

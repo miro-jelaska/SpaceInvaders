@@ -1,8 +1,14 @@
-import javax.naming.directory.InvalidAttributeIdentifierException;
+package game;
+
+import actors.HeroShip;
+import actors.InvaderShip;
+import actors.Projectile;
+import collision.CollisionDetection;
+import collision.CollisionResolution;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
@@ -16,10 +22,13 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
-    private InputHandler input;
-    private HeroShip heroShip;
-    private List<Projectile> projectiles;
-    private List<InvaderShip> invaderShips;
+    private final InputHandler input;
+    private final HeroShip heroShip;
+    private final List<Projectile> projectiles;
+    private final List<InvaderShip> invaderShips;
+    private final CollisionDetection collisionDetection;
+    private final CollisionResolution collisionResolution;
+
 
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -41,6 +50,9 @@ public class Game extends Canvas implements Runnable {
         invaderShips.add(new InvaderShip(0,0));
         invaderShips.add(new InvaderShip(2,2));
         invaderShips.add(new InvaderShip(3,3));
+
+        this.collisionResolution = new CollisionResolution(heroShip, projectiles, invaderShips);
+        this.collisionDetection = new CollisionDetection(heroShip, projectiles, invaderShips, collisionResolution);
     }
 
 
@@ -108,23 +120,8 @@ public class Game extends Canvas implements Runnable {
         for(Projectile projectile: projectiles)
             projectile.Update();
 
-        Projectile[] deadProjectiles =
-                this.projectiles.stream()
-                        .filter(projectile -> projectile.IsOutsideWindow())
-                        .toArray(Projectile[]::new);
-        for(Projectile deadProjectile: deadProjectiles){
-            int indexOfDeadProjectile = projectiles.indexOf(deadProjectile);
-            projectiles.remove(indexOfDeadProjectile);
-        }
-
-        InvaderShip[] deadInvaders =
-                this.invaderShips.stream()
-                        .filter(invader -> invader.IsHitByProjectile(projectiles))
-                        .toArray(InvaderShip[]::new);
-        for(InvaderShip deadInvader: deadInvaders){
-            int indexOfDeadInvader = invaderShips.indexOf(deadInvader);
-            invaderShips.remove(indexOfDeadInvader);
-        }
+        collisionDetection.Detect();
+        collisionResolution.Resolve();
     }
 
     public void render(){
