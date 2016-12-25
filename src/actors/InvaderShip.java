@@ -7,8 +7,8 @@ import game.*;
 
 public class InvaderShip {
     private static final double drawingScale = 0.20;
-    private static final int deltaForXMovement = 1;
-    private static final int movementSpeed = 10;
+    private static final int DELTA_X = 1;
+    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 10;
     private long lastTimeShoot = 0;
     private Point location;
 
@@ -30,11 +30,11 @@ public class InvaderShip {
     }
 
     public void Update(){
-        if((Game.GetCurrentUpateCount() - lastTimeShoot) < movementSpeed)
+        if((Game.GetCurrentUpateCount() - lastTimeShoot) < MOVEMENT_COOLDOWN_UPDATE_TIME)
             return;
 
         lastTimeShoot = Game.GetCurrentUpateCount();
-        location.setLocation(location.getX() + deltaForXMovement, location.getY());
+        location.setLocation(location.getX() + DELTA_X, location.getY());
     }
 
     private Area getShape(){

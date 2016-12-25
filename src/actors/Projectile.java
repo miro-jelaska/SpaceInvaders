@@ -5,10 +5,10 @@ import java.awt.geom.Area;
 
 
 public class Projectile {
-    private static final int width = 10;
-    private static final int height = 15;
-    private static final double scale = 0.5;
-    private static int deltaY = 5;
+    private static final int WIDTH = 7;
+    private static final int HEIGHT = 15;
+    private static final double DRAWING_SCALE = 0.5;
+    private static final int DELTA_Y = 5;
 
     public Projectile(Point location){
         this.location = location;
@@ -16,7 +16,7 @@ public class Projectile {
     private Point location = new Point();
 
     public void Update(){
-        this.location.setLocation(this.location.getX(), this.location.getY() - deltaY);
+        this.location.setLocation(this.location.getX(), this.location.getY() - DELTA_Y);
     }
 
     public void paintComponent(Graphics g) {
@@ -28,7 +28,7 @@ public class Projectile {
     public Area getArea(){
         return new Area(new Rectangle(
             location.x, location.y,
-            (int)(width * scale), (int)(height * scale)));
+            (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
     }
 
     public boolean IsOutsideWindow(){
