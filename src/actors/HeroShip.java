@@ -1,5 +1,6 @@
 package actors;
 
+import utilities.*;
 import game.Game;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -9,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 
-public class HeroShip {
+public class HeroShip implements GraphicalShape {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 80;
     private static final double DRAWING_SCALE = 0.5;
@@ -19,16 +20,16 @@ public class HeroShip {
     private Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
 
     public void MoveLeft(){
-        boolean isOnTheLeftEdgeOfCanvas = this.getShape().getBounds2D().getMinX() <= 0;
+        boolean isOnTheLeftEdgeOfCanvas = this.GetGraphicalShape().getBounds2D().getMinX() <= 0;
         if(isOnTheLeftEdgeOfCanvas)
-            this.location.setLocation(this.getShape().getBounds2D().getWidth()*DRAWING_SCALE, this.location.getY());
+            this.location.setLocation(this.GetGraphicalShape().getBounds2D().getWidth()*DRAWING_SCALE, this.location.getY());
         else
             this.location.setLocation(this.location.getX() - DELTA_X, this.location.getY());
     }
     public void MoveRight(){
-        boolean isOnTheRightEdgeOfCanvas = this.getShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+        boolean isOnTheRightEdgeOfCanvas = this.GetGraphicalShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
         if(isOnTheRightEdgeOfCanvas)
-            this.location.setLocation(Game.CANVAS_WIDTH - this.getShape().getBounds2D().getWidth() * DRAWING_SCALE, this.location.getY());
+            this.location.setLocation(Game.CANVAS_WIDTH - this.GetGraphicalShape().getBounds2D().getWidth() * DRAWING_SCALE, this.location.getY());
         else
             this.location.setLocation(this.location.getX() + DELTA_X, this.location.getY());
     }
@@ -58,12 +59,14 @@ public class HeroShip {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.white);
-        Area heroShipDrawingShape = getShape();
+        Area heroShipDrawingShape = GetGraphicalShape();
         g2.fill(heroShipDrawingShape);
     }
 
-    private Area getShape(){
 
+
+    @Override
+    public Area GetGraphicalShape() {
         Area area = new Area(new Rectangle(
                 this.location.x, this.location.y,
                 (int)(WIDTH*DRAWING_SCALE),(int)(HEIGHT*DRAWING_SCALE)));
