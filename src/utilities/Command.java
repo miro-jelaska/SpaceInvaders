@@ -1,4 +1,4 @@
-package collision.commands;
+package utilities;
 
 import game.Game;
 

@@ -6,6 +6,7 @@ import actors.InvaderShip;
 import actors.Projectile;
 import collision.CollisionDetection;
 import collision.CollisionResolution;
+import events.EventResolution;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,7 @@ public class Game extends Canvas implements Runnable {
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
     private final CollisionResolution collisionResolution;
+    private final EventResolution eventResolution;
 
 
     public Game(){
@@ -49,7 +51,8 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.add(this, BorderLayout.CENTER);
         input = new InputHandler(this);
-        heroShip = new HeroShip();
+        this.eventResolution = new EventResolution(this);
+        heroShip = new HeroShip(this.eventResolution);
         allHeroProjectiles = new ArrayList<Projectile>();
         allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
@@ -117,9 +120,7 @@ public class Game extends Canvas implements Runnable {
             heroShip.MoveLeft();
         }
         if(input.space.isKeyDown()){
-            Projectile maybeProjectile = heroShip.Shoot();
-            if(maybeProjectile != null)
-                allHeroProjectiles.add(maybeProjectile);
+            heroShip.Shoot();
         }
 
         for(InvaderShip invader: allInvaderShips)
@@ -133,6 +134,7 @@ public class Game extends Canvas implements Runnable {
 
         collisionDetection.Detect();
         collisionResolution.Resolve();
+        eventResolution.Resolve();
     }
 
     public void render(){

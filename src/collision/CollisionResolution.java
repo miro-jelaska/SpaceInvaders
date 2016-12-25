@@ -4,6 +4,8 @@ import collision.commands.*;
 import actors.InvaderShip;
 import actors.Projectile;
 import game.Game;
+import utilities.Command;
+
 import java.util.ArrayList;
 import java.util.List;
 

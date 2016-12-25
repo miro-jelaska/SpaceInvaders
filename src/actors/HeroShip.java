@@ -1,24 +1,28 @@
 package actors;
 
 import collision.CollisionDetection;
+import events.EventResolution;
+import events.commands.HeroShipShoot;
 import utilities.*;
 import game.Game;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 import java.awt.*;
 import java.awt.geom.Area;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Arrays;
 
 public class HeroShip implements GraphicalShape {
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 80;
-    private static final double DRAWING_SCALE = 0.5;
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 80;
+    public static final double DRAWING_SCALE = 0.5;
+
     private static final int DELTA_X = 5;
     private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
+    private final EventResolution eventResolution;
 
     private Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
+
+    public HeroShip(EventResolution eventResolution) {
+        this.eventResolution = eventResolution;
+    }
 
     public void MoveLeft(){
         if(CollisionDetection.IsShapeAtEdge_Left(this))
@@ -34,24 +38,13 @@ public class HeroShip implements GraphicalShape {
     }
 
     private long lastTimeShoot;
-    public Projectile Shoot(){
+    public void Shoot(){
         if(Game.GetCurrentUpateCount() - lastTimeShoot < SHOOT_COOLDOWN_UPDATE_TIME)
-            return null;
+            return;
 
         lastTimeShoot = Game.GetCurrentUpateCount();
-        this.playSound_shoot();
 
-        return new Projectile(new Point((int)(location.getX() + WIDTH/2*DRAWING_SCALE), (int)(location.getY())));
-    }
-    private void playSound_shoot(){
-        try {
-            InputStream in = new FileInputStream("src/resources/laser.wav");
-            AudioStream audioStream = new AudioStream(in);
-            AudioPlayer.player.start(audioStream);
-        }
-        catch (Exception e){
-            System.out.println("Sound error");
-        }
+        eventResolution.Push(new HeroShipShoot(this.location));
     }
 
     public void paintComponent(Graphics g) {

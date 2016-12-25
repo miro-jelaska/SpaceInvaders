@@ -2,6 +2,7 @@ package collision.commands;
 
 import actors.Projectile;
 import game.Game;
+import utilities.Command;
 
 public class AbsorbProjectile implements Command {
     private final Projectile projectileThatHit;
