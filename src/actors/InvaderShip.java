@@ -8,10 +8,10 @@ import utilities.GraphicalShape;
 
 public class InvaderShip implements GraphicalShape {
     private static final double DRAWING_SCALE = 0.20;
-    private static final int DELTA_X = 1;
-    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 10;
+    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
     private static final int WIDTH = 110;
     private static final int HEIGHT = 80;
+    private int delta_X = 1;
     private long lastTimeShoot = 0;
     private Point location;
 
@@ -33,7 +33,14 @@ public class InvaderShip implements GraphicalShape {
             return;
 
         lastTimeShoot = Game.GetCurrentUpateCount();
-        location.setLocation(location.getX() + DELTA_X, location.getY());
+        location.setLocation(location.getX() + delta_X, location.getY());
+    }
+
+    public void MoveToNextLine(){
+        this.location.setLocation(this.location.getX(), this.location.getY() + Game.INVADER_NEXT_LINE_HEIGHT);
+    }
+    public void ChangeDirectionOfMovement(){
+        this.delta_X = - delta_X;
     }
 
     @Override

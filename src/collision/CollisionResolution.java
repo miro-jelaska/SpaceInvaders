@@ -28,6 +28,10 @@ public class CollisionResolution {
         actions.clear();
     }
 
+    public void MoveInvadersToNextLine(){
+        actions.add(new MoveInvadersToNextLineAndChangeDirectionOfMovement(allInvaders));
+    }
+
     public void InvaderIsHitByProjectile(InvaderShip invader, Projectile projectile){
         actions.add(new ExplodeInvaderShip(allInvaders, invader));
         actions.add(new AbsorbProjectile(allProjectiles, projectile));

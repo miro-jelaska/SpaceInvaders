@@ -3,13 +3,13 @@ package collision;
 import actors.HeroShip;
 import actors.InvaderShip;
 import actors.Projectile;
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import game.Game;
 import utilities.GraphicalShape;
 
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Optional;
 
 public class CollisionDetection {
     HeroShip heroShip;
@@ -39,6 +39,10 @@ public class CollisionDetection {
                 if(areTwoShapesInCollision(invaderShip, projectile))
                     collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
 
+        boolean isAnyInvaderAtLeftOrRightEdge =
+            allInvaders.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
+        if(isAnyInvaderAtLeftOrRightEdge)
+            collisionResolution.MoveInvadersToNextLine();
     }
 
     public static boolean IsShapeAtEdge_Left(GraphicalShape shape){

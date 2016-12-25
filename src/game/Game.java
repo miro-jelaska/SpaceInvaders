@@ -18,6 +18,7 @@ public class Game extends Canvas implements Runnable {
     public static final int INVADER_COLUMN_WIDTH = 50;
     public static final int INVADER_ROW_HEIGHT = 50;
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
+    public static final int INVADER_NEXT_LINE_HEIGHT = 10;
 
     private static long currentUpdateCount;
     private static final long serialVersionUID = 1L;
