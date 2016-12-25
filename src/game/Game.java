@@ -27,8 +27,8 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
 
     public final HeroShip heroShip;
-    public final List<Projectile> projectiles;
-    public final List<InvaderShip> invaderShips;
+    public final List<Projectile> allHeroProjectiles;
+    public final List<InvaderShip> allInvaderShips;
     public final List<InvaderProjectile> allInvaderProjectiles;
 
     private final InputHandler input;
@@ -50,11 +50,11 @@ public class Game extends Canvas implements Runnable {
         frame.add(this, BorderLayout.CENTER);
         input = new InputHandler(this);
         heroShip = new HeroShip();
-        projectiles = new ArrayList<Projectile>();
-        invaderShips = new ArrayList<InvaderShip>();
+        allHeroProjectiles = new ArrayList<Projectile>();
+        allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
-            for(int column = 0; column<8; column++)
-                invaderShips.add(new InvaderShip(row, column));
+            for(int column = 0; column < 8; column++)
+                allInvaderShips.add(new InvaderShip(row, column));
         allInvaderProjectiles = new ArrayList<InvaderProjectile>();
         this.collisionResolution = new CollisionResolution(this);
         this.collisionDetection = new CollisionDetection(this, this.collisionResolution);
@@ -119,13 +119,13 @@ public class Game extends Canvas implements Runnable {
         if(input.space.isKeyDown()){
             Projectile maybeProjectile = heroShip.Shoot();
             if(maybeProjectile != null)
-                projectiles.add(maybeProjectile);
+                allHeroProjectiles.add(maybeProjectile);
         }
 
-        for(InvaderShip invader: invaderShips)
+        for(InvaderShip invader: allInvaderShips)
             invader.Update();
 
-        for(Projectile projectile: projectiles)
+        for(Projectile projectile: allHeroProjectiles)
             projectile.Update();
 
         for(InvaderProjectile projectile: allInvaderProjectiles)
@@ -147,9 +147,9 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         heroShip.paintComponent(g);
-        for(Projectile projectile: projectiles)
+        for(Projectile projectile: allHeroProjectiles)
             projectile.paintComponent(g);
-        for(InvaderShip invaderShip: invaderShips)
+        for(InvaderShip invaderShip: allInvaderShips)
             invaderShip.paintComponent(g);
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.paintComponent(g);

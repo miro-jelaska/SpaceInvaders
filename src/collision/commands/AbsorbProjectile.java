@@ -12,7 +12,7 @@ public class AbsorbProjectile implements Command {
 
     @Override
     public void Apply(Game game) {
-        int indexOfDeadProjectile = game.projectiles.indexOf(projectileThatHit);
-        game.projectiles.remove(indexOfDeadProjectile);
+        int indexOfDeadProjectile = game.allHeroProjectiles.indexOf(projectileThatHit);
+        game.allHeroProjectiles.remove(indexOfDeadProjectile);
     }
 }

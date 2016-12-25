@@ -12,7 +12,7 @@ public class RemoveProjectileOutOfWindow implements Command {
 
     @Override
     public void Apply(Game game) {
-        int indexOfDeadProjectile = game.projectiles.indexOf(projectileOutOfWindow);
-        game.projectiles.remove(indexOfDeadProjectile);
+        int indexOfDeadProjectile = game.allHeroProjectiles.indexOf(projectileOutOfWindow);
+        game.allHeroProjectiles.remove(indexOfDeadProjectile);
     }
 }

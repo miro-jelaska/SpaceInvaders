@@ -16,9 +16,9 @@ public class ExplodeInvaderShip implements Command {
 
     @Override
     public void Apply(Game game) {
-        int indexOfExplodedShip = game.invaderShips.indexOf(invaderShipThatIsHit);
+        int indexOfExplodedShip = game.allInvaderShips.indexOf(invaderShipThatIsHit);
         if(indexOfExplodedShip >= 0){
-            game.invaderShips.remove(indexOfExplodedShip);
+            game.allInvaderShips.remove(indexOfExplodedShip);
             playSound_explosion();
         }
     }
