@@ -21,12 +21,6 @@ public class InvaderShip implements GraphicalShape {
             row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
     }
 
-    public boolean IsHitByProjectile(Projectile projectile){
-        Area shipArea = this.GetGraphicalShape();
-        shipArea.intersect(projectile.GetGraphicalShape());
-        return !shipArea.isEmpty();
-    }
-
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.green);

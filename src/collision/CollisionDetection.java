@@ -3,7 +3,9 @@ package collision;
 import actors.HeroShip;
 import actors.InvaderShip;
 import actors.Projectile;
+import utilities.GraphicalShape;
 
+import java.awt.geom.Area;
 import java.util.List;
 
 public class CollisionDetection {
@@ -31,8 +33,17 @@ public class CollisionDetection {
 
         for (InvaderShip invaderShip: allInvaders)
             for (Projectile projectile: allProjectiles)
-                if(invaderShip.IsHitByProjectile(projectile))
+                if(areTwoShapesInCollision(invaderShip, projectile))
                     collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
-        
+
+    }
+
+    private static boolean areTwoShapesInCollision(GraphicalShape firstShape, GraphicalShape secondShape){
+        return areTwoShapesInCollision(firstShape.GetGraphicalShape(), secondShape.GetGraphicalShape());
+    }
+    private static boolean areTwoShapesInCollision(Area firstShape, Area secondShape){
+        Area firstShapeCopy = new Area(firstShape);
+        firstShapeCopy.intersect(secondShape);
+        return !firstShapeCopy.isEmpty();
     }
 }

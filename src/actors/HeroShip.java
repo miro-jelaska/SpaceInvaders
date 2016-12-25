@@ -55,15 +55,12 @@ public class HeroShip implements GraphicalShape {
         }
     }
 
-
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.white);
         Area heroShipDrawingShape = GetGraphicalShape();
         g2.fill(heroShipDrawingShape);
     }
-
-
 
     @Override
     public Area GetGraphicalShape() {
