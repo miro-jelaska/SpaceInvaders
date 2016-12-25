@@ -23,7 +23,7 @@ public class CollisionDetection {
         game.allHeroProjectiles
             .stream()
             .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(projectile -> collisionResolution.ProjectileOutOfWindow(projectile));
+            .forEach(collisionResolution::ProjectileOutOfWindow);
 
         for (InvaderShip invaderShip: game.allInvaderShips)
             for (HeroProjectile heroProjectile : game.allHeroProjectiles)

@@ -21,10 +21,10 @@ public class HeroProjectile implements GraphicalShape {
         this.location.setLocation(this.location.getX(), this.location.getY() - DELTA_Y);
     }
 
-    public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.red);
-        g2.fill(GetGraphicalShape());
+    @Override
+    public void Paint(Graphics2D graphics) {
+        graphics.setColor(Color.red);
+        graphics.fill(GetGraphicalShape());
     }
 
     @Override
@@ -33,4 +33,6 @@ public class HeroProjectile implements GraphicalShape {
                 location.x, location.y,
                 (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
     }
+
+
 }

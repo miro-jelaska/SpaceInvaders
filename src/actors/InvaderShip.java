@@ -11,11 +11,12 @@ public class InvaderShip implements GraphicalShape {
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.20;
 
-    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 90;
+    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
 
     private int delta_X = 1;
     private long lastTimeMove = 0;
     private Point location;
+    private boolean willChangeDirectionAfterCooldown = false;
 
     public InvaderShip(int row, int column){
         this.location = new Point(
@@ -23,18 +24,14 @@ public class InvaderShip implements GraphicalShape {
             row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
     }
 
-    public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.green);
-        Area heroShipDrawingPoints = GetGraphicalShape();
-        g2.fill(heroShipDrawingPoints);
-    }
-
     public void Update(){
-        boolean isReadyToMove = (Game.GetCurrentUpateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
-        if(isReadyToMove){
-            lastTimeMove = Game.GetCurrentUpateCount();
+        if(IsInMovementCooldown()){
+            if(this.willChangeDirectionAfterCooldown){
+                this.delta_X = - this.delta_X;
+                this.willChangeDirectionAfterCooldown = false;
+            }
             location.setLocation(location.getX() + delta_X, location.getY());
+            lastTimeMove = Game.GetCurrentUpateCount();
         }
     }
 
@@ -42,7 +39,21 @@ public class InvaderShip implements GraphicalShape {
         this.location.setLocation(this.location.getX(), this.location.getY() + Game.INVADER_NEXT_LINE_HEIGHT);
     }
     public void ChangeDirectionOfMovement(){
-        this.delta_X = - delta_X;
+        this.willChangeDirectionAfterCooldown = true;
+    }
+
+    public boolean IsInMovementCooldown(){
+        return (Game.GetCurrentUpateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
+    }
+    public boolean IsGoingToChangeDirection(){
+        return this.willChangeDirectionAfterCooldown;
+    }
+
+    @Override
+    public void Paint(Graphics2D graphics) {
+        graphics.setColor(Color.green);
+        Area heroShipDrawingPoints = GetGraphicalShape();
+        graphics.fill(heroShipDrawingPoints);
     }
 
     @Override

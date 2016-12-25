@@ -21,10 +21,10 @@ public class InvaderProjectile implements GraphicalShape {
         this.location.setLocation(this.location.getX(), this.location.getY() + DELTA_Y);
     }
 
-    public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.magenta);
-        g2.fill(GetGraphicalShape());
+    @Override
+    public void Paint(Graphics2D graphics) {
+        graphics.setColor(Color.magenta);
+        graphics.fill(GetGraphicalShape());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package collision.commands;
+package events.commands;
 
 import actors.HeroProjectile;
 import game.Game;

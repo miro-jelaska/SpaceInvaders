@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable {
     public static final int INVADER_ROW_HEIGHT = 50;
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
-    public static final int INVADER_NEXT_LINE_HEIGHT = 10;
+    public static final int INVADER_NEXT_LINE_HEIGHT = 30;
 
     private static long currentUpdateCount;
     private JFrame frame;
@@ -62,7 +62,7 @@ public class Game extends Canvas implements Runnable {
             for(int column = 0; column < 8; column++)
                 allInvaderShips.add(new InvaderShip(row, column));
         allInvaderProjectiles = new ArrayList<InvaderProjectile>();
-        this.collisionResolution = new CollisionResolution(this);
+        this.collisionResolution = new CollisionResolution(this.eventResolution);
         this.collisionDetection = new CollisionDetection(this, this.collisionResolution);
     }
 
@@ -83,7 +83,7 @@ public class Game extends Canvas implements Runnable {
         int updates = 0;
 
         long lastTimer = System.currentTimeMillis();
-        this.currentUpdateCount = lastTime;
+        this.currentUpdateCount = 0;
         double delta = 0;
         while(running){
             long now = System.nanoTime();
@@ -142,7 +142,6 @@ public class Game extends Canvas implements Runnable {
         }
 
         collisionDetection.Detect();
-        collisionResolution.Resolve();
         eventResolution.Resolve();
     }
 
@@ -153,19 +152,21 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(new Color(35, 31, 32));
-        g.fillRect(0, 0, getWidth(), getHeight());
+        Graphics graphics = bs.getDrawGraphics();
+        graphics.setColor(new Color(35, 31, 32));
+        graphics.fillRect(0, 0, getWidth(), getHeight());
 
-        heroShip.paintComponent(g);
+        Graphics2D graphics2D = (Graphics2D) graphics;
+
+        heroShip.Paint(graphics2D);
         for(HeroProjectile heroProjectile : allHeroProjectiles)
-            heroProjectile.paintComponent(g);
+            heroProjectile.Paint(graphics2D);
         for(InvaderShip invaderShip: allInvaderShips)
-            invaderShip.paintComponent(g);
+            invaderShip.Paint(graphics2D);
         for(InvaderProjectile projectile: allInvaderProjectiles)
-            projectile.paintComponent(g);
-        g.dispose();
+            projectile.Paint(graphics2D);
         bs.show();
+        graphics2D.dispose();
     }
 
     public static void main(String[] args){

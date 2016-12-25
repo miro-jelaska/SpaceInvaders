@@ -37,21 +37,19 @@ public class HeroShip implements GraphicalShape {
             this.location.setLocation(this.location.getX() + DELTA_X, this.location.getY());
     }
 
-    private long lastTimeShoot;
+    private long lastTimeShoot = 0;
     public void Shoot(){
-        if(Game.GetCurrentUpateCount() - lastTimeShoot < SHOOT_COOLDOWN_UPDATE_TIME)
-            return;
-
-        lastTimeShoot = Game.GetCurrentUpateCount();
-
-        eventResolution.Push(new HeroShipShoot(this.location));
+        if(Game.GetCurrentUpateCount() - lastTimeShoot > SHOOT_COOLDOWN_UPDATE_TIME){
+            eventResolution.Push(new HeroShipShoot(this.location));
+            lastTimeShoot = Game.GetCurrentUpateCount();
+        }
     }
 
-    public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
+    @Override
+    public void Paint(Graphics2D graphics){
+        graphics.setColor(Color.white);
         Area heroShipDrawingShape = GetGraphicalShape();
-        g2.fill(heroShipDrawingShape);
+        graphics.fill(heroShipDrawingShape);
     }
 
     @Override
