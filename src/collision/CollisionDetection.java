@@ -3,9 +3,11 @@ package collision;
 import actors.HeroShip;
 import actors.InvaderShip;
 import actors.Projectile;
+import game.Game;
 import utilities.GraphicalShape;
 
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class CollisionDetection {
@@ -28,16 +30,23 @@ public class CollisionDetection {
     public void Detect(){
         this.allProjectiles
             .stream()
-            .filter(projectile -> projectile.IsOutsideWindow())
+            .filter(CollisionDetection::isShapeOutsideWindow)
             .forEach(projectile -> collisionResolution.ProjectileOutOfWindow(projectile));
 
         for (InvaderShip invaderShip: allInvaders)
             for (Projectile projectile: allProjectiles)
                 if(areTwoShapesInCollision(invaderShip, projectile))
                     collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
-
     }
 
+    private static boolean isShapeOutsideWindow(GraphicalShape shape){
+        Rectangle2D bounds2D = shape.GetGraphicalShape().getBounds2D();
+        return
+            bounds2D.getMaxX() < 0 ||
+            bounds2D.getMinX() > Game.CANVAS_WIDTH ||
+            bounds2D.getMaxY() < 0 ||
+            bounds2D.getMinY() > Game.CANVAS_HEIGHT;
+    }
     private static boolean areTwoShapesInCollision(GraphicalShape firstShape, GraphicalShape secondShape){
         return areTwoShapesInCollision(firstShape.GetGraphicalShape(), secondShape.GetGraphicalShape());
     }

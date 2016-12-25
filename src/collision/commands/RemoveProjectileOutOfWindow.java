@@ -17,6 +17,7 @@ public class RemoveProjectileOutOfWindow implements Command {
 
     @Override
     public void Execute() {
+        System.out.println("Executed");
         int indexOfDeadProjectile = allProjectiles.indexOf(projectileOutOfWindow);
         allProjectiles.remove(indexOfDeadProjectile);
     }

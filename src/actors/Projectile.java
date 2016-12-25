@@ -11,11 +11,11 @@ public class Projectile implements GraphicalShape {
     private static final int HEIGHT = 15;
     private static final double DRAWING_SCALE = 0.5;
     private static final int DELTA_Y = 5;
+    private final Point location;
 
     public Projectile(Point location){
         this.location = location;
     }
-    private Point location = new Point();
 
     public void Update(){
         this.location.setLocation(this.location.getX(), this.location.getY() - DELTA_Y);
@@ -25,10 +25,6 @@ public class Projectile implements GraphicalShape {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.red);
         g2.fill(GetGraphicalShape());
-    }
-
-    public boolean IsOutsideWindow(){
-        return this.GetGraphicalShape().getBounds2D().getMaxY() < 0;
     }
 
     @Override
