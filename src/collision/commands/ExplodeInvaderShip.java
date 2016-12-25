@@ -1,29 +1,24 @@
 package collision.commands;
 
 import actors.InvaderShip;
+import game.Game;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.List;
 
 public class ExplodeInvaderShip implements Command {
-    private final List<InvaderShip> allInvaders;
     private final InvaderShip invaderShipThatIsHit;
 
-    public ExplodeInvaderShip(
-            List<InvaderShip> allInvaders,
-            InvaderShip invaderShipThatIsHit){
-        this.allInvaders = allInvaders;
+    public ExplodeInvaderShip(InvaderShip invaderShipThatIsHit){
         this.invaderShipThatIsHit = invaderShipThatIsHit;
     }
 
     @Override
-    public void Execute() {
-        int indexOfExplodedShip = allInvaders.indexOf(invaderShipThatIsHit);
+    public void Apply(Game game) {
+        int indexOfExplodedShip = game.invaderShips.indexOf(invaderShipThatIsHit);
         if(indexOfExplodedShip >= 0){
-            allInvaders.remove(indexOfExplodedShip);
+            game.invaderShips.remove(indexOfExplodedShip);
             playSound_explosion();
         }
     }

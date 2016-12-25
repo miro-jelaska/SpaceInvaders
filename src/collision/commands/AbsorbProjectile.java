@@ -1,23 +1,18 @@
 package collision.commands;
 
 import actors.Projectile;
-
-import java.util.List;
+import game.Game;
 
 public class AbsorbProjectile implements Command {
-    private final List<Projectile> allProjectiles;
-    private final Projectile projectileOutOfWindow;
+    private final Projectile projectileThatHit;
 
-    public AbsorbProjectile(
-            List<Projectile> allProjectiles,
-            Projectile projectileOutOfWindow){
-        this.allProjectiles = allProjectiles;
-        this.projectileOutOfWindow = projectileOutOfWindow;
+    public AbsorbProjectile(Projectile projectileThatHit){
+        this.projectileThatHit = projectileThatHit;
     }
 
     @Override
-    public void Execute() {
-        int indexOfDeadProjectile = allProjectiles.indexOf(projectileOutOfWindow);
-        allProjectiles.remove(indexOfDeadProjectile);
+    public void Apply(Game game) {
+        int indexOfDeadProjectile = game.projectiles.indexOf(projectileThatHit);
+        game.projectiles.remove(indexOfDeadProjectile);
     }
 }

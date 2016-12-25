@@ -2,8 +2,12 @@ package actors;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import game.*;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import utilities.GraphicalShape;
 
 public class InvaderShip implements GraphicalShape {
@@ -11,6 +15,7 @@ public class InvaderShip implements GraphicalShape {
     private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
     private static final int WIDTH = 110;
     private static final int HEIGHT = 80;
+    private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
     private int delta_X = 1;
     private long lastTimeShoot = 0;
     private Point location;
@@ -29,11 +34,29 @@ public class InvaderShip implements GraphicalShape {
     }
 
     public void Update(){
-        if((Game.GetCurrentUpateCount() - lastTimeShoot) < MOVEMENT_COOLDOWN_UPDATE_TIME)
-            return;
+        boolean isReadyToMove = (Game.GetCurrentUpateCount() - lastTimeShoot) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
+        if(isReadyToMove){
+            lastTimeShoot = Game.GetCurrentUpateCount();
+            location.setLocation(location.getX() + delta_X, location.getY());
+        }
+        /*boolean isGoingToShoot = Math.random() > 0.999;
+        boolean isPastCooldownTime = (Game.GetCurrentUpateCount() - lastTimeShoot) < SHOOT_COOLDOWN_UPDATE_TIME;
+        if(isGoingToShoot && isPastCooldownTime){
+            InvaderProjectile projectile = new InvaderProjectile(new Point((int)(location.getX() + WIDTH/2*DRAWING_SCALE), (int)(location.getY())));
+            this.playSound_shoot();
+            lastTimeShoot = Game.GetCurrentUpateCount();
+        }*/
+    }
 
-        lastTimeShoot = Game.GetCurrentUpateCount();
-        location.setLocation(location.getX() + delta_X, location.getY());
+    private void playSound_shoot(){
+        try {
+            InputStream in = new FileInputStream("src/resources/laser.wav");
+            AudioStream audioStream = new AudioStream(in);
+            AudioPlayer.player.start(audioStream);
+        }
+        catch (Exception e){
+            System.out.println("Sound error");
+        }
     }
 
     public void MoveToNextLine(){

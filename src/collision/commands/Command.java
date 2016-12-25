@@ -1,5 +1,7 @@
 package collision.commands;
 
+import game.Game;
+
 public interface Command {
-    void Execute();
+    void Apply(Game game);
 }

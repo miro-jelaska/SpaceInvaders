@@ -1,6 +1,7 @@
 package game;
 
 import actors.HeroShip;
+import actors.InvaderProjectile;
 import actors.InvaderShip;
 import actors.Projectile;
 import collision.CollisionDetection;
@@ -25,10 +26,12 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
+    public final HeroShip heroShip;
+    public final List<Projectile> projectiles;
+    public final List<InvaderShip> invaderShips;
+    public final List<InvaderProjectile> allInvaderProjectiles;
+
     private final InputHandler input;
-    private final HeroShip heroShip;
-    private final List<Projectile> projectiles;
-    private final List<InvaderShip> invaderShips;
     private final CollisionDetection collisionDetection;
     private final CollisionResolution collisionResolution;
 
@@ -52,9 +55,9 @@ public class Game extends Canvas implements Runnable {
         for (int row = 0; row < 5; row++)
             for(int column = 0; column<8; column++)
                 invaderShips.add(new InvaderShip(row, column));
-
-        this.collisionResolution = new CollisionResolution(heroShip, projectiles, invaderShips);
-        this.collisionDetection = new CollisionDetection(heroShip, projectiles, invaderShips, collisionResolution);
+        allInvaderProjectiles = new ArrayList<InvaderProjectile>();
+        this.collisionResolution = new CollisionResolution(this);
+        this.collisionDetection = new CollisionDetection(this, this.collisionResolution);
     }
 
 
@@ -125,6 +128,9 @@ public class Game extends Canvas implements Runnable {
         for(Projectile projectile: projectiles)
             projectile.Update();
 
+        for(InvaderProjectile projectile: allInvaderProjectiles)
+            projectile.Update();
+
         collisionDetection.Detect();
         collisionResolution.Resolve();
     }
@@ -145,6 +151,8 @@ public class Game extends Canvas implements Runnable {
             projectile.paintComponent(g);
         for(InvaderShip invaderShip: invaderShips)
             invaderShip.paintComponent(g);
+        for(InvaderProjectile projectile: allInvaderProjectiles)
+            projectile.paintComponent(g);
         g.dispose();
         bs.show();
     }

@@ -3,44 +3,36 @@ package collision;
 import actors.HeroShip;
 import actors.InvaderShip;
 import actors.Projectile;
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import game.Game;
 import utilities.GraphicalShape;
 
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 public class CollisionDetection {
-    HeroShip heroShip;
-    List<Projectile>  allProjectiles;
-    List<InvaderShip> allInvaders;
-    CollisionResolution collisionResolution;
+    private final Game game;
+    private final CollisionResolution collisionResolution;
 
     public CollisionDetection(
-        HeroShip heroShip,
-        List<Projectile>  allProjectiles,
-        List<InvaderShip> allInvaders,
+        Game game,
         CollisionResolution collisionResolution) {
-        this.heroShip    = heroShip;
-        this.allProjectiles = allProjectiles;
-        this.allInvaders    = allInvaders;
+        this.game = game;
         this.collisionResolution = collisionResolution;
     }
 
     public void Detect(){
-        this.allProjectiles
+        game.projectiles
             .stream()
             .filter(CollisionDetection::IsShapeOutsideWindow)
             .forEach(projectile -> collisionResolution.ProjectileOutOfWindow(projectile));
 
-        for (InvaderShip invaderShip: allInvaders)
-            for (Projectile projectile: allProjectiles)
+        for (InvaderShip invaderShip: game.invaderShips)
+            for (Projectile projectile: game.projectiles)
                 if(areTwoShapesInCollision(invaderShip, projectile))
                     collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
 
         boolean isAnyInvaderAtLeftOrRightEdge =
-            allInvaders.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
+            game.invaderShips.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
         if(isAnyInvaderAtLeftOrRightEdge)
             collisionResolution.MoveInvadersToNextLine();
     }
