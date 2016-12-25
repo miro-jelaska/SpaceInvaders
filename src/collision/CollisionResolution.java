@@ -2,7 +2,7 @@ package collision;
 import collision.commands.*;
 
 import actors.InvaderShip;
-import actors.Projectile;
+import actors.HeroProjectile;
 import game.Game;
 import utilities.Command;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionResolution {
-    private final List<Command>    actions = new ArrayList<Command>();
+    private final List<Command> actions = new ArrayList<Command>();
     private final Game game;
 
     public CollisionResolution(Game game) {
@@ -26,12 +26,12 @@ public class CollisionResolution {
         actions.add(new MoveInvadersToNextLineAndChangeDirectionOfMovement());
     }
 
-    public void InvaderIsHitByProjectile(InvaderShip invader, Projectile projectile){
+    public void InvaderIsHitByProjectile(InvaderShip invader, HeroProjectile heroProjectile){
         actions.add(new ExplodeInvaderShip(invader));
-        actions.add(new AbsorbProjectile(projectile));
+        actions.add(new AbsorbProjectile(heroProjectile));
     }
 
-    public void ProjectileOutOfWindow(Projectile projectile){
-        actions.add(new RemoveProjectileOutOfWindow(projectile));
+    public void ProjectileOutOfWindow(HeroProjectile heroProjectile){
+        actions.add(new RemoveProjectileOutOfWindow(heroProjectile));
     }
 }

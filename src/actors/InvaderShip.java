@@ -2,27 +2,24 @@ package actors;
 
 import java.awt.*;
 import java.awt.geom.Area;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Arrays;
 import game.*;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 import utilities.GraphicalShape;
 
 public class InvaderShip implements GraphicalShape {
-    private static final double DRAWING_SCALE = 0.20;
-    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
-    private static final int WIDTH = 110;
-    private static final int HEIGHT = 80;
-    private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
+    public static final int WIDTH = 110;
+    public static final int HEIGHT = 80;
+    public static final double DRAWING_SCALE = 0.20;
+
+    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 90;
+
     private int delta_X = 1;
-    private long lastTimeShoot = 0;
+    private long lastTimeMove = 0;
     private Point location;
 
     public InvaderShip(int row, int column){
-        location = new Point(
-            column * Game.INVADER_COLUMN_WIDTH,
+        this.location = new Point(
+            column * Game.INVADER_COLUMN_WIDTH +  Game.INVADER_WINDOW_MARGIN_LEFT,
             row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
     }
 
@@ -34,28 +31,10 @@ public class InvaderShip implements GraphicalShape {
     }
 
     public void Update(){
-        boolean isReadyToMove = (Game.GetCurrentUpateCount() - lastTimeShoot) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
+        boolean isReadyToMove = (Game.GetCurrentUpateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
         if(isReadyToMove){
-            lastTimeShoot = Game.GetCurrentUpateCount();
+            lastTimeMove = Game.GetCurrentUpateCount();
             location.setLocation(location.getX() + delta_X, location.getY());
-        }
-        /*boolean isGoingToShoot = Math.random() > 0.999;
-        boolean isPastCooldownTime = (Game.GetCurrentUpateCount() - lastTimeShoot) < SHOOT_COOLDOWN_UPDATE_TIME;
-        if(isGoingToShoot && isPastCooldownTime){
-            InvaderProjectile projectile = new InvaderProjectile(new Point((int)(location.getX() + WIDTH/2*DRAWING_SCALE), (int)(location.getY())));
-            this.playSound_shoot();
-            lastTimeShoot = Game.GetCurrentUpateCount();
-        }*/
-    }
-
-    private void playSound_shoot(){
-        try {
-            InputStream in = new FileInputStream("src/resources/laser.wav");
-            AudioStream audioStream = new AudioStream(in);
-            AudioPlayer.player.start(audioStream);
-        }
-        catch (Exception e){
-            System.out.println("Sound error");
         }
     }
 

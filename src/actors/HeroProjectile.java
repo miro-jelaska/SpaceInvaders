@@ -6,14 +6,14 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 
-public class Projectile implements GraphicalShape {
+public class HeroProjectile implements GraphicalShape {
     private static final int WIDTH = 7;
     private static final int HEIGHT = 15;
     private static final double DRAWING_SCALE = 0.5;
     private static final int DELTA_Y = 5;
     private final Point location;
 
-    public Projectile(Point location){
+    public HeroProjectile(Point location){
         this.location = location;
     }
 

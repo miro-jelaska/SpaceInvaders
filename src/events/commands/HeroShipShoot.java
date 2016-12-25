@@ -1,7 +1,7 @@
 package events.commands;
 
 import actors.HeroShip;
-import actors.Projectile;
+import actors.HeroProjectile;
 import game.Game;
 import utilities.Command;
 import utilities.SoundEffectPlayer;
@@ -19,7 +19,7 @@ public class HeroShipShoot implements Command {
         Point projectileLocation = new Point(
             (int)(heroShipLocation.getX() + HeroShip.WIDTH / 2 * HeroShip.DRAWING_SCALE),
             (int)(heroShipLocation.getY()));
-        game.allHeroProjectiles.add(new Projectile(projectileLocation));
+        game.allHeroProjectiles.add(new HeroProjectile(projectileLocation));
         SoundEffectPlayer.Play("src/resources/laser.wav");
     }
 }

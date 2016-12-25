@@ -1,19 +1,19 @@
 package collision.commands;
 
-import actors.Projectile;
+import actors.HeroProjectile;
 import game.Game;
 import utilities.Command;
 
 public class AbsorbProjectile implements Command {
-    private final Projectile projectileThatHit;
+    private final HeroProjectile heroProjectileThatHit;
 
-    public AbsorbProjectile(Projectile projectileThatHit){
-        this.projectileThatHit = projectileThatHit;
+    public AbsorbProjectile(HeroProjectile heroProjectileThatHit){
+        this.heroProjectileThatHit = heroProjectileThatHit;
     }
 
     @Override
     public void Apply(Game game) {
-        int indexOfDeadProjectile = game.allHeroProjectiles.indexOf(projectileThatHit);
+        int indexOfDeadProjectile = game.allHeroProjectiles.indexOf(heroProjectileThatHit);
         game.allHeroProjectiles.remove(indexOfDeadProjectile);
     }
 }

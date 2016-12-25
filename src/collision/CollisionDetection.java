@@ -1,7 +1,7 @@
 package collision;
 
 import actors.InvaderShip;
-import actors.Projectile;
+import actors.HeroProjectile;
 import game.Game;
 import utilities.GraphicalShape;
 
@@ -26,9 +26,9 @@ public class CollisionDetection {
             .forEach(projectile -> collisionResolution.ProjectileOutOfWindow(projectile));
 
         for (InvaderShip invaderShip: game.allInvaderShips)
-            for (Projectile projectile: game.allHeroProjectiles)
-                if(areTwoShapesInCollision(invaderShip, projectile))
-                    collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
+            for (HeroProjectile heroProjectile : game.allHeroProjectiles)
+                if(areTwoShapesInCollision(invaderShip, heroProjectile))
+                    collisionResolution.InvaderIsHitByProjectile(invaderShip, heroProjectile);
 
         boolean isAnyInvaderAtLeftOrRightEdge =
             game.allInvaderShips.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));

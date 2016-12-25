@@ -3,10 +3,11 @@ package game;
 import actors.HeroShip;
 import actors.InvaderProjectile;
 import actors.InvaderShip;
-import actors.Projectile;
+import actors.HeroProjectile;
 import collision.CollisionDetection;
 import collision.CollisionResolution;
 import events.EventResolution;
+import events.commands.InvaderShipShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,15 +21,17 @@ public class Game extends Canvas implements Runnable {
     public static final int INVADER_COLUMN_WIDTH = 50;
     public static final int INVADER_ROW_HEIGHT = 50;
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
+    public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
     public static final int INVADER_NEXT_LINE_HEIGHT = 10;
 
     private static long currentUpdateCount;
-    private static final long serialVersionUID = 1L;
     private JFrame frame;
     private boolean running = false;
+    private int invaderShootingCooldownPeriod = 60;
+    private long invaderShootingLastTime = 0;
 
     public final HeroShip heroShip;
-    public final List<Projectile> allHeroProjectiles;
+    public final List<HeroProjectile> allHeroProjectiles;
     public final List<InvaderShip> allInvaderShips;
     public final List<InvaderProjectile> allInvaderProjectiles;
 
@@ -53,7 +56,7 @@ public class Game extends Canvas implements Runnable {
         input = new InputHandler(this);
         this.eventResolution = new EventResolution(this);
         heroShip = new HeroShip(this.eventResolution);
-        allHeroProjectiles = new ArrayList<Projectile>();
+        allHeroProjectiles = new ArrayList<HeroProjectile>();
         allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
             for(int column = 0; column < 8; column++)
@@ -71,7 +74,6 @@ public class Game extends Canvas implements Runnable {
         running = true;
         new Thread(this).start();
     }
-
 
     public void run() {
         long lastTime = System.nanoTime();
@@ -119,6 +121,7 @@ public class Game extends Canvas implements Runnable {
         if(input.left.isKeyDown()){
             heroShip.MoveLeft();
         }
+
         if(input.space.isKeyDown()){
             heroShip.Shoot();
         }
@@ -126,11 +129,17 @@ public class Game extends Canvas implements Runnable {
         for(InvaderShip invader: allInvaderShips)
             invader.Update();
 
-        for(Projectile projectile: allHeroProjectiles)
-            projectile.Update();
+        for(HeroProjectile heroProjectile : allHeroProjectiles)
+            heroProjectile.Update();
 
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Update();
+
+        boolean isPastCooldownTime = (this.GetCurrentUpateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
+        if(isPastCooldownTime){
+            eventResolution.Push(new InvaderShipShoot());
+            invaderShootingLastTime = this.GetCurrentUpateCount();
+        }
 
         collisionDetection.Detect();
         collisionResolution.Resolve();
@@ -149,8 +158,8 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         heroShip.paintComponent(g);
-        for(Projectile projectile: allHeroProjectiles)
-            projectile.paintComponent(g);
+        for(HeroProjectile heroProjectile : allHeroProjectiles)
+            heroProjectile.paintComponent(g);
         for(InvaderShip invaderShip: allInvaderShips)
             invaderShip.paintComponent(g);
         for(InvaderProjectile projectile: allInvaderProjectiles)
