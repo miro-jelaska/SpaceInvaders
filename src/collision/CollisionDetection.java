@@ -9,6 +9,7 @@ import utilities.GraphicalShape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Optional;
 
 public class CollisionDetection {
     HeroShip heroShip;
@@ -30,16 +31,23 @@ public class CollisionDetection {
     public void Detect(){
         this.allProjectiles
             .stream()
-            .filter(CollisionDetection::isShapeOutsideWindow)
+            .filter(CollisionDetection::IsShapeOutsideWindow)
             .forEach(projectile -> collisionResolution.ProjectileOutOfWindow(projectile));
 
         for (InvaderShip invaderShip: allInvaders)
             for (Projectile projectile: allProjectiles)
                 if(areTwoShapesInCollision(invaderShip, projectile))
                     collisionResolution.InvaderIsHitByProjectile(invaderShip, projectile);
+
     }
 
-    private static boolean isShapeOutsideWindow(GraphicalShape shape){
+    public static boolean IsShapeAtEdge_Left(GraphicalShape shape){
+        return shape.GetGraphicalShape().getBounds2D().getMinX() <= 0;
+    }
+    public static boolean IsShapeAtEdge_Right(GraphicalShape shape){
+        return shape.GetGraphicalShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+    }
+    public static boolean IsShapeOutsideWindow(GraphicalShape shape){
         Rectangle2D bounds2D = shape.GetGraphicalShape().getBounds2D();
         return
             bounds2D.getMaxX() < 0 ||

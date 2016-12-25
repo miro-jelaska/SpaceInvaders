@@ -1,5 +1,6 @@
 package actors;
 
+import collision.CollisionDetection;
 import utilities.*;
 import game.Game;
 import sun.audio.AudioPlayer;
@@ -20,16 +21,14 @@ public class HeroShip implements GraphicalShape {
     private Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
 
     public void MoveLeft(){
-        boolean isOnTheLeftEdgeOfCanvas = this.GetGraphicalShape().getBounds2D().getMinX() <= 0;
-        if(isOnTheLeftEdgeOfCanvas)
-            this.location.setLocation(this.GetGraphicalShape().getBounds2D().getWidth()*DRAWING_SCALE, this.location.getY());
+        if(CollisionDetection.IsShapeAtEdge_Left(this))
+            this.location.setLocation(1, this.location.getY());
         else
             this.location.setLocation(this.location.getX() - DELTA_X, this.location.getY());
     }
     public void MoveRight(){
-        boolean isOnTheRightEdgeOfCanvas = this.GetGraphicalShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
-        if(isOnTheRightEdgeOfCanvas)
-            this.location.setLocation(Game.CANVAS_WIDTH - this.GetGraphicalShape().getBounds2D().getWidth() * DRAWING_SCALE, this.location.getY());
+        if(CollisionDetection.IsShapeAtEdge_Right(this))
+            this.location.setLocation(Game.CANVAS_WIDTH - WIDTH * DRAWING_SCALE, this.location.getY());
         else
             this.location.setLocation(this.location.getX() + DELTA_X, this.location.getY());
     }
