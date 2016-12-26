@@ -5,11 +5,10 @@ import utilities.GraphicalShape;
 import java.awt.*;
 import java.awt.geom.Area;
 
-
 public class HeroProjectile implements GraphicalShape {
-    private static final int WIDTH = 7;
-    private static final int HEIGHT = 15;
-    private static final double DRAWING_SCALE = 0.5;
+    private static final int WIDTH = 4;
+    private static final int HEIGHT = 6;
+    private static final double DRAWING_SCALE = 1;
     private static final int DELTA_Y = 5;
     private final Point location;
 
@@ -33,6 +32,4 @@ public class HeroProjectile implements GraphicalShape {
                 location.x, location.y,
                 (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
     }
-
-
 }

@@ -12,6 +12,8 @@ import events.commands.InvaderShipShoot;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class Game extends Canvas implements Runnable {
     public static final int INVADER_ROW_HEIGHT = 50;
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
-    public static final int INVADER_NEXT_LINE_HEIGHT = 30;
+    public static final int INVADER_NEXT_LINE_HEIGHT = 40;
 
     private static long currentUpdateCount;
     private JFrame frame;
@@ -30,11 +32,14 @@ public class Game extends Canvas implements Runnable {
     private int invaderShootingCooldownPeriod = 60;
     private long invaderShootingLastTime = 0;
 
+    public int Score = 0;
     public final HeroShip heroShip;
+    public final StatusRibbon statusRibbon;
     public final List<HeroProjectile> allHeroProjectiles;
     public final List<InvaderShip> allInvaderShips;
     public final List<InvaderProjectile> allInvaderProjectiles;
 
+    private final LocalDateTime StartTime = java.time.LocalDateTime.now();
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
     private final CollisionResolution collisionResolution;
@@ -54,6 +59,7 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.add(this, BorderLayout.CENTER);
         input = new InputHandler(this);
+        this.statusRibbon = new StatusRibbon(this);
         this.eventResolution = new EventResolution(this);
         heroShip = new HeroShip(this.eventResolution);
         allHeroProjectiles = new ArrayList<HeroProjectile>();
@@ -66,7 +72,9 @@ public class Game extends Canvas implements Runnable {
         this.collisionDetection = new CollisionDetection(this, this.collisionResolution);
     }
 
-
+    public long GetRuntimeInSeconds(){
+        return java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC);
+    }
     public static long GetCurrentUpateCount(){
         return currentUpdateCount;
     }
@@ -158,13 +166,14 @@ public class Game extends Canvas implements Runnable {
 
         Graphics2D graphics2D = (Graphics2D) graphics;
 
-        heroShip.Paint(graphics2D);
+        statusRibbon.Paint(graphics2D);
         for(HeroProjectile heroProjectile : allHeroProjectiles)
             heroProjectile.Paint(graphics2D);
-        for(InvaderShip invaderShip: allInvaderShips)
-            invaderShip.Paint(graphics2D);
+        heroShip.Paint(graphics2D);
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Paint(graphics2D);
+        for(InvaderShip invaderShip: allInvaderShips)
+            invaderShip.Paint(graphics2D);
         bs.show();
         graphics2D.dispose();
     }

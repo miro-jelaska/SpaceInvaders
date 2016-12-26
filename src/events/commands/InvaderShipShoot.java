@@ -13,6 +13,9 @@ import java.util.Random;
 public class InvaderShipShoot implements Command {
     @Override
     public void Apply(Game game) {
+        if(game.allInvaderShips.isEmpty())
+            return;
+
         InvaderShip randomInvader = game.allInvaderShips.get(new Random().nextInt(game.allInvaderShips.size()));
         Rectangle2D randomInvaderBounds2D = randomInvader.GetGraphicalShape().getBounds2D();
         Point projectileLocation = new Point(
