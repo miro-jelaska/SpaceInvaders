@@ -12,6 +12,7 @@ public class InvaderProjectile implements GraphicalShape {
     private static final int HEIGHT = 20;
     private static final double DRAWING_SCALE = 1;
     private static final int DELTA_Y = 5;
+    private static final Color COLOR = Color.decode("#AE81FF");
     private final Point location;
 
     public InvaderProjectile(Point location){
@@ -35,7 +36,7 @@ public class InvaderProjectile implements GraphicalShape {
         if(signLeft == 0 && signRight == 0)
             signLeft = 1;
 
-        graphics.setColor(Color.decode("#AE81FF"));
+        graphics.setColor(COLOR);
         graphics.drawLine(
             location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
             location.y,

@@ -10,6 +10,7 @@ public class HeroProjectile implements GraphicalShape {
     private static final int HEIGHT = 6;
     private static final double DRAWING_SCALE = 1;
     private static final int DELTA_Y = 5;
+    private static final Color COLOR = Color.decode("#F92672");
     private final Point location;
 
     public HeroProjectile(Point location){
@@ -22,7 +23,7 @@ public class HeroProjectile implements GraphicalShape {
 
     @Override
     public void Paint(Graphics2D graphics) {
-        graphics.setColor(Color.decode("#F92672"));
+        graphics.setColor(COLOR);
         graphics.fill(GetGraphicalShape());
     }
 

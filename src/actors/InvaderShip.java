@@ -12,6 +12,7 @@ public class InvaderShip implements GraphicalShape {
     public static final double DRAWING_SCALE = 0.20;
 
     private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
+    private static final Color COLOR = Color.decode("#A6E22E");
 
     private int delta_X = 1;
     private long lastTimeMove = 0;
@@ -51,7 +52,7 @@ public class InvaderShip implements GraphicalShape {
 
     @Override
     public void Paint(Graphics2D graphics) {
-        graphics.setColor(Color.decode("#A6E22E"));
+        graphics.setColor(COLOR);
         Area heroShipDrawingPoints = GetGraphicalShape();
         graphics.fill(heroShipDrawingPoints);
     }

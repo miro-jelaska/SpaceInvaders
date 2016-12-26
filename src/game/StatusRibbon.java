@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 public class StatusRibbon implements GraphicalShape{
+    private static final Color COLOR_GRAY = Color.decode("#282828");
+    private static final Color COLOR_GREEN = Color.decode("#A6E22E");
+    private static final Color COLOR_YELLOW = Color.decode("#E6DB74");
     public static final int HEIGHT = 30;
     public static final int WIDTH = Game.CANVAS_WIDTH;
     private final Game game;
@@ -15,14 +18,14 @@ public class StatusRibbon implements GraphicalShape{
 
     @Override
     public void Paint(Graphics2D graphics) {
-        graphics.setColor(Color.decode("#282828"));
+        graphics.setColor(COLOR_GRAY);
         Area background = GetGraphicalShape();
         graphics.fill(background);
         graphics.setFont(new Font("Consolas", Font.PLAIN, 12));
-        graphics.setColor(Color.decode("#E6DB74"));
+        graphics.setColor(COLOR_YELLOW);
         graphics.drawString(String.valueOf(game.Score), 20, 20);
         graphics.drawString(GetFormatedTimeFromSeconds(game.GetRuntimeInSeconds()), WIDTH - 50, 20);
-        graphics.setColor(Color.decode("#A6E22E"));
+        graphics.setColor(COLOR_GREEN);
         graphics.drawString("Space Invaders", WIDTH/2 - 40, 20);
 
     }
