@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
     private boolean running = false;
     private int invaderShootingCooldownPeriod = 40;
     private long invaderShootingLastTime = 0;
-    private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 350;
+    private final int INITIAL_SHOOTING_DELAY_BECAUSE_OF_RENDER_PROBLEMS = 350;
     private final Color COLOR_BACKGROUND = new Color(35, 31, 32);
 
     public int Score = 0;
@@ -173,7 +173,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Update();
 
-        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS) > 0;
+        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY_BECAUSE_OF_RENDER_PROBLEMS) > 0;
         boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
         if(isPastInitialDely && isPastCooldownTime){
             eventResolution.Push(new InvaderShipShoot());
