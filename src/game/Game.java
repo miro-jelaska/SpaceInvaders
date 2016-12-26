@@ -29,9 +29,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
     private JFrame frame;
     private boolean running = false;
-    private int invaderShootingCooldownPeriod = 60;
+    private int invaderShootingCooldownPeriod = 55;
     private long invaderShootingLastTime = 0;
-    private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 400;
+    private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 350;
 
     public int Score = 0;
     public LocalDateTime EndTime;
@@ -54,7 +54,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
 
-        frame = new JFrame("game");
+        frame = new JFrame("Space Invaders :: Loading");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.pack();
@@ -63,18 +63,24 @@ public class Game extends Canvas implements Runnable, GameTimer {
         frame.setSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
         frame.setVisible(true);
         frame.add(this, BorderLayout.CENTER);
-        input = new InputHandler(this);
+
+        this.input = new InputHandler(this);
         this.statusRibbon = new StatusRibbon(this);
         this.gameOverScreenOverlay = new GameOverScreenOverlay(this);
         this.eventResolution = new EventResolution(this);
-        heroShip = new HeroShip(this.eventResolution, this);
-        allHeroProjectiles = new ArrayList<HeroProjectile>();
-        allInvaderShips = new ArrayList<InvaderShip>();
+        this.heroShip = new HeroShip(this.eventResolution, this);
+        this.allHeroProjectiles = new ArrayList<HeroProjectile>();
+        this.allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
             for(int column = 0; column < 7; column++)
-                allInvaderShips.add(new InvaderShip(row, column, this));
-        allInvaderProjectiles = new ArrayList<InvaderProjectile>();
+                this.allInvaderShips.add(new InvaderShip(row, column, this));
+        this.allInvaderProjectiles = new ArrayList<InvaderProjectile>();
         this.collisionDetection = new CollisionDetection(this, this.eventResolution);
+    }
+
+    public synchronized void start(){
+        this.running = true;
+        new Thread(this).start();
     }
 
     public long GetRuntimeInSeconds(){
@@ -85,51 +91,57 @@ public class Game extends Canvas implements Runnable, GameTimer {
     }
 
     public long GetCurrentUpdateCount(){
-        return currentUpdateCount;
+        return totalUpdateCount;
     }
-    private long currentUpdateCount = 0;
-    public synchronized void start(){
-        running = true;
-        new Thread(this).start();
-    }
+    private long totalUpdateCount = 0;
 
+
+    private static final int MILLIS_IN_SECOND = 1000;
+    private static final int MAX_FPS_LAG_AFTER_UPS = 5;
     public void run() {
         long lastTime = System.nanoTime();
         double nsPerUpdate = Math.pow(10D, 9) / 60;
-
-        int frames = 0;
-        int updates = 0;
-
-        long lastTimer = System.currentTimeMillis();
         double delta = 0;
+
+        int framesCount = 0;
+        int updatesCount = 0;
+        long lastUpsAndFpsReading_inMillis = System.currentTimeMillis();
+
         while(running){
             long now = System.nanoTime();
 
-            delta+= (now - lastTime) / nsPerUpdate;
+            delta += (now - lastTime) / nsPerUpdate;
             lastTime = now;
             boolean shouldRender = false;
 
+            // The game is too slow and this here forces at least 1 render for every 5 update.
+            if(delta > MAX_FPS_LAG_AFTER_UPS)
+                delta = MAX_FPS_LAG_AFTER_UPS;
+
             while(delta >= 1){
                 if(!IsGameOver){
-                    updates++;
-                    this.currentUpdateCount++;
                     processInput();
                     update();
+
+                    updatesCount++;
+                    this.totalUpdateCount++;
                 }
                 delta--;
                 shouldRender = true;
             }
 
             if(shouldRender){
-                frames++;
                 render();
+
+                framesCount++;
             }
 
-            if(System.currentTimeMillis() - lastTimer > 1000){
-                lastTimer += 1000;
-                frame.setTitle("Space Invaders (ups: " + updates + " | fps: " + frames + ")");
-                frames = 0;
-                updates = 0;
+            boolean isReadyToDisplayUpsAndFpsReadings = (System.currentTimeMillis() - lastUpsAndFpsReading_inMillis) > MILLIS_IN_SECOND;
+            if(isReadyToDisplayUpsAndFpsReadings){
+                lastUpsAndFpsReading_inMillis += MILLIS_IN_SECOND;
+                frame.setTitle("Space Invaders (ups: " + updatesCount + " | fps: " + framesCount + ")");
+                framesCount = 0;
+                updatesCount = 0;
             }
         }
     }
@@ -145,6 +157,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
             heroShip.Shoot();
         }
     }
+
     private void update(){
         for(InvaderShip invader: allInvaderShips)
             invader.Update();
