@@ -27,7 +27,6 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
     public static final int INVADER_NEXT_LINE_HEIGHT = 40;
 
-
     private JFrame frame;
     private boolean running = false;
     private int invaderShootingCooldownPeriod = 40;
@@ -51,7 +50,6 @@ public class Game extends Canvas implements Runnable, GameTimer {
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
     private final EventResolution eventResolution;
-
 
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -96,7 +94,6 @@ public class Game extends Canvas implements Runnable, GameTimer {
         return totalUpdateCount;
     }
     private long totalUpdateCount = 0;
-
 
     private static final int MILLIS_IN_SECOND = 1000;
     private static final int MAX_FPS_LAG_AFTER_UPS = 5;

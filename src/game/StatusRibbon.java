@@ -27,7 +27,6 @@ public class StatusRibbon implements GraphicalShape{
         graphics.drawString(GetFormatedTimeFromSeconds(game.GetRuntimeInSeconds()), WIDTH - 50, 20);
         graphics.setColor(COLOR_GREEN);
         graphics.drawString("Space Invaders", WIDTH/2 - 40, 20);
-
     }
     private String GetFormatedTimeFromSeconds(long seconds){
         String secondPart = (seconds%60) < 10 ? "0" + String.valueOf(seconds%60) : String.valueOf(seconds%60);
