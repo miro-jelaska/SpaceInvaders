@@ -18,7 +18,7 @@ public class CollisionResolution {
     }
 
     public void InvaderIsHitByProjectile(InvaderShip invader, HeroProjectile heroProjectile){
-        eventResolution.Push(new ExplodeInvaderShip(invader));
+        eventResolution.Push(new ExplodeInvaderShip(invader, eventResolution));
         eventResolution.Push(new AbsorbProjectile(heroProjectile));
     }
 

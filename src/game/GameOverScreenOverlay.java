@@ -24,7 +24,6 @@ public class GameOverScreenOverlay implements GraphicalShape{
         graphics.drawString(message, Game.CANVAS_WIDTH/2 - 60, (int)(Game.CANVAS_HEIGHT*0.4));
     }
 
-
     @Override
     public Area GetGraphicalShape() {
         Area area = new Area(new Rectangle(0, StatusRibbon.HEIGHT, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT - StatusRibbon.HEIGHT));

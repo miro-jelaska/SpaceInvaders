@@ -70,8 +70,8 @@ public class Game extends Canvas implements Runnable {
         heroShip = new HeroShip(this.eventResolution);
         allHeroProjectiles = new ArrayList<HeroProjectile>();
         allInvaderShips = new ArrayList<InvaderShip>();
-        for (int row = 0; row < 5; row++)
-            for(int column = 0; column < 8; column++)
+        for (int row = 0; row < 1; row++)
+            for(int column = 0; column < 2; column++)
                 allInvaderShips.add(new InvaderShip(row, column));
         allInvaderProjectiles = new ArrayList<InvaderProjectile>();
         this.collisionResolution = new CollisionResolution(this.eventResolution);
