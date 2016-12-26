@@ -33,12 +33,17 @@ public class Game extends Canvas implements Runnable {
     private long invaderShootingLastTime = 0;
 
     public int Score = 0;
+    public LocalDateTime EndTime;
+    public boolean IsGameOver = false;
+    public boolean PlayerWon = false;
+
     public final HeroShip heroShip;
     public final StatusRibbon statusRibbon;
+    public final GameOverScreenOverlay gameOverScreenOverlay;
     public final List<HeroProjectile> allHeroProjectiles;
     public final List<InvaderShip> allInvaderShips;
-    public final List<InvaderProjectile> allInvaderProjectiles;
 
+    public final List<InvaderProjectile> allInvaderProjectiles;
     private final LocalDateTime StartTime = java.time.LocalDateTime.now();
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
@@ -60,6 +65,7 @@ public class Game extends Canvas implements Runnable {
         frame.add(this, BorderLayout.CENTER);
         input = new InputHandler(this);
         this.statusRibbon = new StatusRibbon(this);
+        this.gameOverScreenOverlay = new GameOverScreenOverlay(this);
         this.eventResolution = new EventResolution(this);
         heroShip = new HeroShip(this.eventResolution);
         allHeroProjectiles = new ArrayList<HeroProjectile>();
@@ -73,7 +79,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     public long GetRuntimeInSeconds(){
-        return java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC);
+        return
+            this.IsGameOver
+            ? this.EndTime.toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC)
+            : java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC);
     }
     public static long GetCurrentUpateCount(){
         return currentUpdateCount;
@@ -101,9 +110,11 @@ public class Game extends Canvas implements Runnable {
             boolean shouldRender = false;
 
             while(delta >= 1){
-                updates++;
-                this.currentUpdateCount++;
-                update();
+                if(!IsGameOver){
+                    updates++;
+                    this.currentUpdateCount++;
+                    update();
+                }
                 delta--;
                 shouldRender = true;
             }
@@ -115,7 +126,7 @@ public class Game extends Canvas implements Runnable {
 
             if(System.currentTimeMillis() - lastTimer > 1000){
                 lastTimer += 1000;
-                frame.setTitle("SpaceInviders (ups: " + updates + " | fps: " + frames + ")");
+                frame.setTitle("Space Invaders (ups: " + updates + " | fps: " + frames + ")");
                 frames = 0;
                 updates = 0;
             }
@@ -174,6 +185,9 @@ public class Game extends Canvas implements Runnable {
             projectile.Paint(graphics2D);
         for(InvaderShip invaderShip: allInvaderShips)
             invaderShip.Paint(graphics2D);
+        if(this.IsGameOver)
+            gameOverScreenOverlay.Paint(graphics2D);
+
         bs.show();
         graphics2D.dispose();
     }

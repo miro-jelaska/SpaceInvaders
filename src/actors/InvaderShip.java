@@ -51,7 +51,7 @@ public class InvaderShip implements GraphicalShape {
 
     @Override
     public void Paint(Graphics2D graphics) {
-        graphics.setColor(Color.green);
+        graphics.setColor(Color.decode("#A6E22E"));
         Area heroShipDrawingPoints = GetGraphicalShape();
         graphics.fill(heroShipDrawingPoints);
     }

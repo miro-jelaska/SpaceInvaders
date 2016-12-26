@@ -1,7 +1,6 @@
 package collision;
 
-import actors.InvaderShip;
-import actors.HeroProjectile;
+import actors.*;
 import game.Game;
 import utilities.GraphicalShape;
 
@@ -23,7 +22,16 @@ public class CollisionDetection {
         game.allHeroProjectiles
             .stream()
             .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(collisionResolution::ProjectileOutOfWindow);
+            .forEach(collisionResolution::HeroProjectileOutOfWindow);
+
+        game.allInvaderProjectiles
+            .stream()
+            .filter(CollisionDetection::IsShapeOutsideWindow)
+            .forEach(collisionResolution::InvaderProjectileOutOfWindow);
+
+        for (InvaderProjectile invaderProjectile : game.allInvaderProjectiles)
+            if(areTwoShapesInCollision(game.heroShip, invaderProjectile))
+                collisionResolution.HeroIsHitByProjectile();
 
         for (InvaderShip invaderShip: game.allInvaderShips)
             for (HeroProjectile heroProjectile : game.allHeroProjectiles)

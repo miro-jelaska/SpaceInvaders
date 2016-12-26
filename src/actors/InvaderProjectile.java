@@ -35,7 +35,7 @@ public class InvaderProjectile implements GraphicalShape {
         if(signLeft == 0 && signRight == 0)
             signLeft = 1;
 
-        graphics.setColor(Color.magenta);
+        graphics.setColor(Color.decode("#AE81FF"));
         graphics.drawLine(
             location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
             location.y,

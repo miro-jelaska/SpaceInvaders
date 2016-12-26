@@ -1,12 +1,10 @@
 package collision;
 
+import actors.InvaderProjectile;
 import actors.InvaderShip;
 import actors.HeroProjectile;
 import events.EventResolution;
-import events.commands.AbsorbProjectile;
-import events.commands.ExplodeInvaderShip;
-import events.commands.MoveInvadersToNextLineAndChangeDirectionOfMovement;
-import events.commands.RemoveProjectileOutOfWindow;
+import events.commands.*;
 
 public class CollisionResolution {
     private final EventResolution eventResolution;
@@ -24,7 +22,15 @@ public class CollisionResolution {
         eventResolution.Push(new AbsorbProjectile(heroProjectile));
     }
 
-    public void ProjectileOutOfWindow(HeroProjectile heroProjectile){
-        eventResolution.Push(new RemoveProjectileOutOfWindow(heroProjectile));
+    public void HeroProjectileOutOfWindow(HeroProjectile heroProjectile){
+        eventResolution.Push(new RemoveHeroProjectileOutOfWindow(heroProjectile));
+    }
+
+    public void InvaderProjectileOutOfWindow(InvaderProjectile invaderProjectile){
+        eventResolution.Push(new RemoveInvaderProjectileOutOfWindow(invaderProjectile));
+    }
+
+    public void HeroIsHitByProjectile(){
+        eventResolution.Push(new EndGame(false));
     }
 }

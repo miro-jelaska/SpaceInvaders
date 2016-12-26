@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 public class StatusRibbon implements GraphicalShape{
+    public static final int HEIGHT = 30;
+    public static final int WIDTH = Game.CANVAS_WIDTH;
     private final Game game;
     public StatusRibbon(Game game) {
         this.game = game;
@@ -20,6 +22,9 @@ public class StatusRibbon implements GraphicalShape{
         graphics.setColor(Color.decode("#E6DB74"));
         graphics.drawString(String.valueOf(game.Score), 20, 20);
         graphics.drawString(GetFormatedTimeFromSeconds(game.GetRuntimeInSeconds()), Game.CANVAS_WIDTH - 50, 20);
+        graphics.setColor(Color.decode("#A6E22E"));
+        graphics.drawString("Space Invaders", Game.CANVAS_WIDTH/2 - 40, 20);
+
     }
     private String GetFormatedTimeFromSeconds(long seconds){
         String secondPart = (seconds%60) < 10 ? "0" + String.valueOf(seconds%60) : String.valueOf(seconds%60);
@@ -28,7 +33,7 @@ public class StatusRibbon implements GraphicalShape{
 
     @Override
     public Area GetGraphicalShape() {
-        Area area = new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, 30));
+        Area area = new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, HEIGHT));
         return area;
     }
 }

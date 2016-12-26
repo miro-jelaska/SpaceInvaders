@@ -4,10 +4,10 @@ import actors.HeroProjectile;
 import game.Game;
 import utilities.Command;
 
-public class RemoveProjectileOutOfWindow implements Command {
+public class RemoveHeroProjectileOutOfWindow implements Command {
     private final HeroProjectile heroProjectileOutOfWindow;
 
-    public RemoveProjectileOutOfWindow(HeroProjectile heroProjectileOutOfWindow){
+    public RemoveHeroProjectileOutOfWindow(HeroProjectile heroProjectileOutOfWindow){
         this.heroProjectileOutOfWindow = heroProjectileOutOfWindow;
     }
 
