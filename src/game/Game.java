@@ -29,7 +29,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
     private JFrame frame;
     private boolean running = false;
-    private int invaderShootingCooldownPeriod = 55;
+    private int invaderShootingCooldownPeriod = 40;
     private long invaderShootingLastTime = 0;
     private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 350;
 
