@@ -17,11 +17,13 @@ public class HeroShip implements GraphicalShape {
     private static final int DELTA_X = 5;
     private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
     private final EventResolution eventResolution;
+    private final GameTimer gameTimer;
 
     private Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
 
-    public HeroShip(EventResolution eventResolution) {
+    public HeroShip(EventResolution eventResolution, GameTimer gameTimer) {
         this.eventResolution = eventResolution;
+        this.gameTimer = gameTimer;
     }
 
     public void MoveLeft(){
@@ -39,9 +41,9 @@ public class HeroShip implements GraphicalShape {
 
     private long lastTimeShoot = 0;
     public void Shoot(){
-        if(Game.GetCurrentUpateCount() - lastTimeShoot > SHOOT_COOLDOWN_UPDATE_TIME){
+        if(gameTimer.GetCurrentUpdateCount() - lastTimeShoot > SHOOT_COOLDOWN_UPDATE_TIME){
             eventResolution.Push(new HeroShipShoot(this.location));
-            lastTimeShoot = Game.GetCurrentUpateCount();
+            lastTimeShoot = gameTimer.GetCurrentUpdateCount();
         }
     }
 

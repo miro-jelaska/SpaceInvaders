@@ -21,7 +21,7 @@ public class InvaderShipShoot implements Command {
         Point projectileLocation = new Point(
             (int)(randomInvaderBounds2D.getX() + InvaderShip.WIDTH / 2 * InvaderShip.DRAWING_SCALE),
             (int)(randomInvaderBounds2D.getY()));
-        game.allInvaderProjectiles.add(new InvaderProjectile(projectileLocation));
+        game.allInvaderProjectiles.add(new InvaderProjectile(projectileLocation, game));
         SoundEffectPlayer.Play("src/resources/laser.wav");
     }
 }

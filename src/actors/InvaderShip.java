@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.util.Arrays;
 import game.*;
+import utilities.GameTimer;
 import utilities.GraphicalShape;
 
 public class InvaderShip implements GraphicalShape {
@@ -18,11 +19,13 @@ public class InvaderShip implements GraphicalShape {
     private long lastTimeMove = 0;
     private Point location;
     private boolean willChangeDirectionAfterCooldown = false;
+    private final GameTimer gameTimer;
 
-    public InvaderShip(int row, int column){
+    public InvaderShip(int row, int column, GameTimer gameTimer){
         this.location = new Point(
             column * Game.INVADER_COLUMN_WIDTH +  Game.INVADER_WINDOW_MARGIN_LEFT,
             row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
+        this.gameTimer = gameTimer;
     }
 
     public void Update(){
@@ -32,7 +35,7 @@ public class InvaderShip implements GraphicalShape {
                 this.willChangeDirectionAfterCooldown = false;
             }
             location.setLocation(location.getX() + delta_X, location.getY());
-            lastTimeMove = Game.GetCurrentUpateCount();
+            lastTimeMove = gameTimer.GetCurrentUpdateCount();
         }
     }
 
@@ -44,7 +47,7 @@ public class InvaderShip implements GraphicalShape {
     }
 
     public boolean IsInMovementCooldown(){
-        return (Game.GetCurrentUpateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
+        return (gameTimer.GetCurrentUpdateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
     }
     public boolean IsGoingToChangeDirection(){
         return this.willChangeDirectionAfterCooldown;

@@ -1,11 +1,9 @@
 package actors;
 
-import game.Game;
+import utilities.GameTimer;
 import utilities.GraphicalShape;
-
 import java.awt.*;
 import java.awt.geom.Area;
-
 
 public class InvaderProjectile implements GraphicalShape {
     private static final int WIDTH = 8;
@@ -14,9 +12,11 @@ public class InvaderProjectile implements GraphicalShape {
     private static final int DELTA_Y = 5;
     private static final Color COLOR = Color.decode("#AE81FF");
     private final Point location;
+    private final GameTimer gameTimer;
 
-    public InvaderProjectile(Point location){
+    public InvaderProjectile(Point location, GameTimer gameTimer){
         this.location = location;
+        this.gameTimer = gameTimer;
     }
 
     public void Update(){
@@ -27,10 +27,10 @@ public class InvaderProjectile implements GraphicalShape {
     @Override
     public void Paint(Graphics2D graphics) {
 
-        int signLeft = (int)Math.signum(Math.sin(animationOmega * Game.GetCurrentUpateCount()));
+        int signLeft = (int)Math.signum(Math.sin(animationOmega * gameTimer.GetCurrentUpdateCount()));
         signLeft = signLeft > 0 ? signLeft : 0;
 
-        int signRight = (int)Math.signum(Math.sin(animationOmega * Game.GetCurrentUpateCount() + Math.PI));
+        int signRight = (int)Math.signum(Math.sin(animationOmega * gameTimer.GetCurrentUpdateCount() + Math.PI));
         signRight = signRight > 0 ? signRight : 0;
 
         if(signLeft == 0 && signRight == 0)
