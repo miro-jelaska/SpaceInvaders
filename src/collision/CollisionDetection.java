@@ -1,6 +1,8 @@
 package collision;
 
 import actors.*;
+import events.EventResolution;
+import events.commands.*;
 import game.Game;
 import utilities.GraphicalShape;
 
@@ -9,39 +11,50 @@ import java.awt.geom.Rectangle2D;
 
 public class CollisionDetection {
     private final Game game;
-    private final CollisionResolution collisionResolution;
+    private final EventResolution eventResolution;
 
     public CollisionDetection(
-        Game game,
-        CollisionResolution collisionResolution) {
+            Game game,
+            EventResolution eventResolution) {
         this.game = game;
-        this.collisionResolution = collisionResolution;
+        this.eventResolution = eventResolution;
     }
 
     public void Detect(){
         game.allHeroProjectiles
             .stream()
             .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(collisionResolution::HeroProjectileOutOfWindow);
+            .forEach(heroProjectile -> eventResolution.Push(new RemoveHeroProjectileOutOfWindow(heroProjectile)));
 
         game.allInvaderProjectiles
             .stream()
             .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(collisionResolution::InvaderProjectileOutOfWindow);
+            .forEach(invaderProjectile -> eventResolution.Push(new RemoveInvaderProjectileOutOfWindow(invaderProjectile)));
 
         for (InvaderProjectile invaderProjectile : game.allInvaderProjectiles)
             if(areTwoShapesInCollision(game.heroShip, invaderProjectile))
-                collisionResolution.HeroIsHitByProjectile();
+                eventResolution.Push(new EndGame(false));
 
         for (InvaderShip invaderShip: game.allInvaderShips)
             for (HeroProjectile heroProjectile : game.allHeroProjectiles)
-                if(areTwoShapesInCollision(invaderShip, heroProjectile))
-                    collisionResolution.InvaderIsHitByProjectile(invaderShip, heroProjectile);
+                if(areTwoShapesInCollision(invaderShip, heroProjectile)){
+                    eventResolution.Push(new ExplodeInvaderShip(invaderShip, eventResolution));
+                    eventResolution.Push(new AbsorbProjectile(heroProjectile));
+                }
 
         boolean isAnyInvaderAtLeftOrRightEdge =
             game.allInvaderShips.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
         if(isAnyInvaderAtLeftOrRightEdge)
-            collisionResolution.MoveInvadersToNextLine();
+            eventResolution.Push(new MoveInvadersToNextLineAndChangeDirectionOfMovement());
+
+        boolean isAnyInvaderAtBottomEdge =
+                game.allInvaderShips.stream().anyMatch(CollisionDetection::IsShapeAtEdge_Bottom);
+        if(isAnyInvaderAtBottomEdge)
+            eventResolution.Push(new EndGame(false));
+
+        boolean isInvaderInCollisionWithHero = game.allInvaderShips.stream().anyMatch(invader -> areTwoShapesInCollision(invader, game.heroShip));
+        if(isInvaderInCollisionWithHero)
+            eventResolution.Push(new EndGame(false));
     }
 
     public static boolean IsShapeAtEdge_Left(GraphicalShape shape){
@@ -49,6 +62,9 @@ public class CollisionDetection {
     }
     public static boolean IsShapeAtEdge_Right(GraphicalShape shape){
         return shape.GetGraphicalShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+    }
+    public static boolean IsShapeAtEdge_Bottom(GraphicalShape shape){
+        return shape.GetGraphicalShape().getBounds2D().getMaxY() >= Game.CANVAS_HEIGHT;
     }
     public static boolean IsShapeOutsideWindow(GraphicalShape shape){
         Rectangle2D bounds2D = shape.GetGraphicalShape().getBounds2D();

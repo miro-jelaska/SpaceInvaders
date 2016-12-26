@@ -22,7 +22,7 @@ public class HeroProjectile implements GraphicalShape {
 
     @Override
     public void Paint(Graphics2D graphics) {
-        graphics.setColor(Color.red);
+        graphics.setColor(Color.decode("#F92672"));
         graphics.fill(GetGraphicalShape());
     }
 

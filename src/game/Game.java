@@ -5,7 +5,6 @@ import actors.InvaderProjectile;
 import actors.InvaderShip;
 import actors.HeroProjectile;
 import collision.CollisionDetection;
-import collision.CollisionResolution;
 import events.EventResolution;
 import events.commands.InvaderShipShoot;
 
@@ -31,6 +30,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private int invaderShootingCooldownPeriod = 60;
     private long invaderShootingLastTime = 0;
+    private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 400;
 
     public int Score = 0;
     public LocalDateTime EndTime;
@@ -44,10 +44,9 @@ public class Game extends Canvas implements Runnable {
     public final List<InvaderShip> allInvaderShips;
 
     public final List<InvaderProjectile> allInvaderProjectiles;
-    private final LocalDateTime StartTime = java.time.LocalDateTime.now();
+    private final long StartTimeInSeconds = java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
-    private final CollisionResolution collisionResolution;
     private final EventResolution eventResolution;
 
 
@@ -70,19 +69,18 @@ public class Game extends Canvas implements Runnable {
         heroShip = new HeroShip(this.eventResolution);
         allHeroProjectiles = new ArrayList<HeroProjectile>();
         allInvaderShips = new ArrayList<InvaderShip>();
-        for (int row = 0; row < 1; row++)
-            for(int column = 0; column < 2; column++)
+        for (int row = 0; row < 5; row++)
+            for(int column = 0; column < 7; column++)
                 allInvaderShips.add(new InvaderShip(row, column));
         allInvaderProjectiles = new ArrayList<InvaderProjectile>();
-        this.collisionResolution = new CollisionResolution(this.eventResolution);
-        this.collisionDetection = new CollisionDetection(this, this.collisionResolution);
+        this.collisionDetection = new CollisionDetection(this, this.eventResolution);
     }
 
     public long GetRuntimeInSeconds(){
         return
             this.IsGameOver
-            ? this.EndTime.toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC)
-            : java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - StartTime.toEpochSecond(ZoneOffset.UTC);
+            ? this.EndTime.toEpochSecond(ZoneOffset.UTC) - StartTimeInSeconds
+            : java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - StartTimeInSeconds;
     }
     public static long GetCurrentUpateCount(){
         return currentUpdateCount;
@@ -109,10 +107,11 @@ public class Game extends Canvas implements Runnable {
             lastTime = now;
             boolean shouldRender = false;
 
-            while(delta >= 1){
+            while(delta >= 2){
                 if(!IsGameOver){
                     updates++;
                     this.currentUpdateCount++;
+                    processInput();
                     update();
                 }
                 delta--;
@@ -132,8 +131,7 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
-
-    public void update(){
+    private void processInput(){
         if(input.right.isKeyDown()){
             heroShip.MoveRight();
         }
@@ -144,7 +142,8 @@ public class Game extends Canvas implements Runnable {
         if(input.space.isKeyDown()){
             heroShip.Shoot();
         }
-
+    }
+    private void update(){
         for(InvaderShip invader: allInvaderShips)
             invader.Update();
 
@@ -154,8 +153,9 @@ public class Game extends Canvas implements Runnable {
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Update();
 
+        boolean isPastInitialDely = (this.GetCurrentUpateCount() - INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS) > 0;
         boolean isPastCooldownTime = (this.GetCurrentUpateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
-        if(isPastCooldownTime){
+        if(isPastInitialDely && isPastCooldownTime){
             eventResolution.Push(new InvaderShipShoot());
             invaderShootingLastTime = this.GetCurrentUpateCount();
         }
@@ -164,7 +164,7 @@ public class Game extends Canvas implements Runnable {
         eventResolution.Resolve();
     }
 
-    public void render(){
+    private void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
             createBufferStrategy(3);

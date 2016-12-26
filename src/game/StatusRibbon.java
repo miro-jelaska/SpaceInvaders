@@ -21,9 +21,9 @@ public class StatusRibbon implements GraphicalShape{
         graphics.setFont(new Font("Consolas", Font.PLAIN, 12));
         graphics.setColor(Color.decode("#E6DB74"));
         graphics.drawString(String.valueOf(game.Score), 20, 20);
-        graphics.drawString(GetFormatedTimeFromSeconds(game.GetRuntimeInSeconds()), Game.CANVAS_WIDTH - 50, 20);
+        graphics.drawString(GetFormatedTimeFromSeconds(game.GetRuntimeInSeconds()), WIDTH - 50, 20);
         graphics.setColor(Color.decode("#A6E22E"));
-        graphics.drawString("Space Invaders", Game.CANVAS_WIDTH/2 - 40, 20);
+        graphics.drawString("Space Invaders", WIDTH/2 - 40, 20);
 
     }
     private String GetFormatedTimeFromSeconds(long seconds){
