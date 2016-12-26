@@ -20,6 +20,6 @@ public class HeroShipShoot implements Command {
             (int)(heroShipLocation.getX() + HeroShip.WIDTH / 2 * HeroShip.DRAWING_SCALE),
             (int)(heroShipLocation.getY()));
         game.allHeroProjectiles.add(new HeroProjectile(projectileLocation));
-        SoundEffectPlayer.Play("src/resources/laser.wav");
+        SoundEffectPlayer.Play("src/resources/organic-laser-shot_by_qubodup.wav");
     }
 }

@@ -6,6 +6,7 @@ import actors.InvaderShip;
 import actors.HeroProjectile;
 import collision.CollisionDetection;
 import events.EventResolution;
+import events.commands.PlayIntroSound;
 import events.commands.InvaderShipShoot;
 import utilities.GameTimer;
 
@@ -32,6 +33,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
     private int invaderShootingCooldownPeriod = 40;
     private long invaderShootingLastTime = 0;
     private final int INITIAL_SHOOTING_DELAY_BECAOUSE_OF_RENDER_PROBLEMS = 350;
+    private final Color COLOR_BACKGROUND = new Color(35, 31, 32);
 
     public int Score = 0;
     public LocalDateTime EndTime;
@@ -159,6 +161,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
     }
 
     private void update(){
+        if(this.GetCurrentUpdateCount() == 30)
+            this.eventResolution.Push(new PlayIntroSound());
+
         for(InvaderShip invader: allInvaderShips)
             invader.Update();
 
@@ -187,7 +192,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         }
 
         Graphics graphics = bs.getDrawGraphics();
-        graphics.setColor(new Color(35, 31, 32));
+        graphics.setColor(COLOR_BACKGROUND);
         graphics.fillRect(0, 0, getWidth(), getHeight());
 
         Graphics2D graphics2D = (Graphics2D) graphics;
