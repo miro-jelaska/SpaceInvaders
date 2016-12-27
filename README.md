@@ -2,6 +2,27 @@
 Game of Space Invaders created in Java without any game framework.
 ![Screenshot](readme-resources/screenshot.png)
 
+# Game mechanics
+# Points
+Points are gained by destroying invader ships, 100 points per each. Bonus points are added for each destroyed ship depending on the time it was destroyed. The sooner in gameplay ship gets destroyed the more bonus points are gained.
+
+Bonus points are given by following function:
+```
+  BonusPoints(time) = 1000 points * e^(-0.1 * time)
+```
+This is actualy function of exponential decay where total amount N<sub>0</sub> is 1000 and exponential decay constant 𝛌 is 0.1 within general formula 
+![equation](https://wikimedia.org/api/rest_v1/media/math/render/svg/baa07972d73b76745139edb5b4aa0aa3b9eac222).
+
+ 
+### Code snippet
+``` Java
+  private static final int TotalBonusPoints = 1000;
+  private static final double ExponentialDecayConstant = -0.1;
+  private int bonusPointsWithExponentialDecay(long time){
+      return (int)(TotalBonusPoints * Math.exp(ExponentialDecayConstant * time));
+  }
+```
+
 # Other
 
 ## Useful resources
