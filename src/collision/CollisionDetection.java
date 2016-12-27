@@ -21,34 +21,30 @@ public class CollisionDetection {
     }
 
     public void Detect(){
-        game.allHeroProjectiles
-            .stream()
-            .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(heroProjectile -> eventResolution.Push(new RemoveHeroProjectileOutOfWindow(heroProjectile)));
-
-        game.allInvaderProjectiles
-            .stream()
-            .filter(CollisionDetection::IsShapeOutsideWindow)
-            .forEach(invaderProjectile -> eventResolution.Push(new RemoveInvaderProjectileOutOfWindow(invaderProjectile)));
-
-        for (InvaderProjectile invaderProjectile : game.allInvaderProjectiles)
-            if(areTwoShapesInCollision(game.heroShip, invaderProjectile))
+        for (InvaderProjectile invaderProjectile : game.allInvaderProjectiles){
+            if(IsShapeOutsideWindow(invaderProjectile))
+                eventResolution.Push(new RemoveInvaderProjectileOutOfWindow(invaderProjectile));
+            else if(areTwoShapesInCollision(game.heroShip, invaderProjectile))
                 eventResolution.Push(new EndGame(false));
+        }
 
-        for (InvaderShip invaderShip: game.allInvaderShips)
-            for (HeroProjectile heroProjectile : game.allHeroProjectiles)
+        for (HeroProjectile heroProjectile : game.allHeroProjectiles){
+            if(IsShapeOutsideWindow(heroProjectile))
+                eventResolution.Push(new RemoveHeroProjectileOutOfWindow(heroProjectile));
+            else for (InvaderShip invaderShip: game.allInvaderShips)
                 if(areTwoShapesInCollision(invaderShip, heroProjectile)){
                     eventResolution.Push(new ExplodeInvaderShip(invaderShip, eventResolution));
                     eventResolution.Push(new AbsorbProjectile(heroProjectile));
                 }
+        }
 
         boolean isAnyInvaderAtLeftOrRightEdge =
-            game.allInvaderShips.stream().anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
+            game.allInvaderShips.stream()
+            .anyMatch(invader -> CollisionDetection.IsShapeAtEdge_Left(invader) || CollisionDetection.IsShapeAtEdge_Right(invader));
         if(isAnyInvaderAtLeftOrRightEdge)
             eventResolution.Push(new MoveInvadersToNextLineAndChangeDirectionOfMovement());
 
-        boolean isAnyInvaderAtBottomEdge =
-                game.allInvaderShips.stream().anyMatch(CollisionDetection::IsShapeAtEdge_Bottom);
+        boolean isAnyInvaderAtBottomEdge = game.allInvaderShips.stream().anyMatch(CollisionDetection::IsShapeAtEdge_Bottom);
         if(isAnyInvaderAtBottomEdge)
             eventResolution.Push(new EndGame(false));
 

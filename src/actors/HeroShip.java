@@ -6,7 +6,9 @@ import events.commands.HeroShipShoot;
 import utilities.*;
 import game.Game;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
 public class HeroShip implements GraphicalShape {
@@ -18,31 +20,38 @@ public class HeroShip implements GraphicalShape {
     private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
     private final EventResolution eventResolution;
     private final GameTimer gameTimer;
-
-    private Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
+    private final Area currentShape;
 
     public HeroShip(EventResolution eventResolution, GameTimer gameTimer) {
+        Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
         this.eventResolution = eventResolution;
         this.gameTimer = gameTimer;
+        this.currentShape = generateShape(location);
     }
 
     public void MoveLeft(){
+        AffineTransform transform = new AffineTransform();
         if(CollisionDetection.IsShapeAtEdge_Left(this))
-            this.location.setLocation(1, this.location.getY());
+            transform.translate(1 - this.currentShape.getBounds2D().getMinX(), 0);
         else
-            this.location.setLocation(this.location.getX() - DELTA_X, this.location.getY());
+            transform.translate(- DELTA_X, 0);
+        currentShape.transform(transform);
     }
     public void MoveRight(){
+        AffineTransform transform = new AffineTransform();
         if(CollisionDetection.IsShapeAtEdge_Right(this))
-            this.location.setLocation(Game.CANVAS_WIDTH - WIDTH * DRAWING_SCALE, this.location.getY());
+            transform.translate(Game.CANVAS_WIDTH - this.currentShape.getBounds2D().getMaxX() - 1, 0);
         else
-            this.location.setLocation(this.location.getX() + DELTA_X, this.location.getY());
+            transform.translate(DELTA_X, 0);
+        currentShape.transform(transform);
     }
 
     private long lastTimeShoot = 0;
     public void Shoot(){
         if(gameTimer.GetCurrentUpdateCount() - lastTimeShoot > SHOOT_COOLDOWN_UPDATE_TIME){
-            eventResolution.Push(new HeroShipShoot(this.location));
+            Rectangle2D shipBounds = this.currentShape.getBounds2D();
+            Point projectileLocation = new Point((int)(shipBounds.getMinX()), (int)shipBounds.getMinY());
+            eventResolution.Push(new HeroShipShoot(projectileLocation));
             lastTimeShoot = gameTimer.GetCurrentUpdateCount();
         }
     }
@@ -56,41 +65,44 @@ public class HeroShip implements GraphicalShape {
 
     @Override
     public Area GetGraphicalShape() {
+        return currentShape;
+    }
+
+    private static Area generateShape(Point location){
         Area area = new Area(new Rectangle(
-                this.location.x, this.location.y,
+                location.x, location.y,
                 (int)(WIDTH*DRAWING_SCALE),(int)(HEIGHT*DRAWING_SCALE)));
 
         Arrays.stream(new Area[]{
-                getSingleShapePeace(40, 0, 20, 10),
+                getSingleShapePeace(location, 40, 0, 20, 10),
 
-                getSingleShapePeace(0, 0, 20, 20),
-                getSingleShapePeace((WIDTH - 20), 0, 20, 20),
+                getSingleShapePeace(location, 0, 0, 20, 20),
+                getSingleShapePeace(location, (WIDTH - 20), 0, 20, 20),
 
-                getSingleShapePeace(0, 6, 25, 2),
-                getSingleShapePeace((WIDTH - 25), 6, 25, 2),
-                getSingleShapePeace(0, 10, 25, 2),
-                getSingleShapePeace((WIDTH - 25), 10, 25, 2),
-                getSingleShapePeace(0, 14, 25, 2),
-                getSingleShapePeace((WIDTH - 25), 14, 25, 2),
+                getSingleShapePeace(location, 0, 6, 25, 2),
+                getSingleShapePeace(location, (WIDTH - 25), 6, 25, 2),
+                getSingleShapePeace(location, 0, 10, 25, 2),
+                getSingleShapePeace(location, (WIDTH - 25), 10, 25, 2),
+                getSingleShapePeace(location, 0, 14, 25, 2),
+                getSingleShapePeace(location, (WIDTH - 25), 14, 25, 2),
 
-                getSingleShapePeace(0, 20, 30, 20),
-                getSingleShapePeace((WIDTH - 30), 20, 30, 20),
-                getSingleShapePeace(0, 40, 20, 10),
-                getSingleShapePeace((WIDTH - 20), 40, 20, 10),
-                getSingleShapePeace(0, 50, 10, 10),
-                getSingleShapePeace((WIDTH - 10), 50, 10, 10),
+                getSingleShapePeace(location, 0, 20, 30, 20),
+                getSingleShapePeace(location, (WIDTH - 30), 20, 30, 20),
+                getSingleShapePeace(location, 0, 40, 20, 10),
+                getSingleShapePeace(location, (WIDTH - 20), 40, 20, 10),
+                getSingleShapePeace(location, 0, 50, 10, 10),
+                getSingleShapePeace(location, (WIDTH - 10), 50, 10, 10),
 
-                getSingleShapePeace(0, 76, 16, 5),
-                getSingleShapePeace((WIDTH - 16), 76, 16, 5),
-                getSingleShapePeace(40, 76, 20, 8),
-
+                getSingleShapePeace(location, 0, 76, 16, 5),
+                getSingleShapePeace(location, (WIDTH - 16), 76, 16, 5),
+                getSingleShapePeace(location, 40, 76, 20, 8),
         }).forEach(area::subtract);
 
         return area;
     }
-    private Area getSingleShapePeace(int xPosition, int yPosition, int width, int height){
+    private static Area getSingleShapePeace(Point location, int xPosition, int yPosition, int width, int height){
         return new Area(new Rectangle(
-                (int)(xPosition*DRAWING_SCALE) + this.location.x, (int)(yPosition*DRAWING_SCALE) + this.location.y,
+                (int)(xPosition*DRAWING_SCALE) + location.x, (int)(yPosition*DRAWING_SCALE) + location.y,
                 (int)(width*DRAWING_SCALE), (int)(height*DRAWING_SCALE)));
     }
 }

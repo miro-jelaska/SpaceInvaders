@@ -96,15 +96,16 @@ public class Game extends Canvas implements Runnable, GameTimer {
     private long totalUpdateCount = 0;
 
     private static final int MILLIS_IN_SECOND = 1000;
-    private static final int MAX_FPS_LAG_AFTER_UPS = 5;
+    private static final int MAX_FPS_LAG_AFTER_UPS = 1;
+
     public void run() {
         long lastTime = System.nanoTime();
         double nsPerUpdate = Math.pow(10D, 9) / 60;
         double delta = 0;
 
-        int framesCount = 0;
-        int updatesCount = 0;
         long lastUpsAndFpsReading_inMillis = System.currentTimeMillis();
+        int updatesCount = 0;
+        int framesCount = 0;
 
         while(running){
             long now = System.nanoTime();
@@ -113,7 +114,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
             lastTime = now;
             boolean shouldRender = false;
 
-            // The game is too slow and this here forces at least 1 render for every 5 update.
+            /*  If the game gets too slow, for whatever reason,
+                this will force at least 1 render for every MAX_FPS_LAG_AFTER_UPS updates. */
             if(delta > MAX_FPS_LAG_AFTER_UPS)
                 delta = MAX_FPS_LAG_AFTER_UPS;
 
@@ -195,7 +197,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         statusRibbon.Paint(graphics2D);
-        for(HeroProjectile heroProjectile : allHeroProjectiles)
+        for(HeroProjectile heroProjectile: allHeroProjectiles)
             heroProjectile.Paint(graphics2D);
         heroShip.Paint(graphics2D);
         for(InvaderProjectile projectile: allInvaderProjectiles)
