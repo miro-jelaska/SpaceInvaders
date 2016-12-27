@@ -195,8 +195,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         graphics.fillRect(0, 0, getWidth(), getHeight());
 
         Graphics2D graphics2D = (Graphics2D) graphics;
-
-        statusRibbon.Paint(graphics2D);
+        
         for(HeroProjectile heroProjectile: allHeroProjectiles)
             heroProjectile.Paint(graphics2D);
         heroShip.Paint(graphics2D);
@@ -206,6 +205,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
             invaderShip.Paint(graphics2D);
         if(this.IsGameOver)
             gameOverScreenOverlay.Paint(graphics2D);
+        statusRibbon.Paint(graphics2D);
 
         bs.show();
         graphics2D.dispose();
