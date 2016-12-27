@@ -3,6 +3,7 @@ package events.commands;
 import actors.InvaderProjectile;
 import actors.InvaderShip;
 import game.Game;
+import resources.SoundEffectTracks;
 import utilities.Command;
 import utilities.SoundEffectPlayer;
 
@@ -22,6 +23,6 @@ public class InvaderShipShoot implements Command {
             (int)(randomInvaderBounds2D.getX() + InvaderShip.WIDTH / 2 * InvaderShip.DRAWING_SCALE),
             (int)(randomInvaderBounds2D.getY()));
         game.allInvaderProjectiles.add(new InvaderProjectile(projectileLocation, game));
-        SoundEffectPlayer.Play("src/resources/laser.wav");
+        SoundEffectPlayer.Play(SoundEffectTracks.GetTrackPath(SoundEffectTracks.Track.InvaderShoot));
     }
 }

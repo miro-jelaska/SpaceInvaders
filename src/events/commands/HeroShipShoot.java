@@ -3,6 +3,7 @@ package events.commands;
 import actors.HeroShip;
 import actors.HeroProjectile;
 import game.Game;
+import resources.SoundEffectTracks;
 import utilities.Command;
 import utilities.SoundEffectPlayer;
 
@@ -20,6 +21,6 @@ public class HeroShipShoot implements Command {
             (int)(heroShipLocation.getX() + HeroShip.WIDTH / 2 * HeroShip.DRAWING_SCALE),
             (int)(heroShipLocation.getY()));
         game.allHeroProjectiles.add(new HeroProjectile(projectileLocation));
-        SoundEffectPlayer.Play("src/resources/organic-laser-shot_by_qubodup.wav");
+        SoundEffectPlayer.Play(SoundEffectTracks.GetTrackPath(SoundEffectTracks.Track.HeroShoot));
     }
 }

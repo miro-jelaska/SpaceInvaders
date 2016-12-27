@@ -3,6 +3,7 @@ package events.commands;
 import actors.InvaderShip;
 import events.EventResolution;
 import game.Game;
+import resources.SoundEffectTracks;
 import utilities.Command;
 import utilities.SoundEffectPlayer;
 
@@ -22,7 +23,7 @@ public class ExplodeInvaderShip implements Command {
         int indexOfExplodedShip = game.allInvaderShips.indexOf(invaderShipThatIsHit);
         if(indexOfExplodedShip >= 0){
             game.allInvaderShips.remove(indexOfExplodedShip);
-            SoundEffectPlayer.Play("src/resources/jm-fx-boom-01a_by_julien-matthey.wav");
+            SoundEffectPlayer.Play(SoundEffectTracks.GetTrackPath(SoundEffectTracks.Track.InvaderExplosion));
             game.Score = game.Score + 100 + bonusPointsWithExponentialDecay(game.GetRuntimeInSeconds());
             if(game.allInvaderShips.isEmpty())
                 eventResolution.Push(new EndGame(true));
