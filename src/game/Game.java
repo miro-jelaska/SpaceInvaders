@@ -25,7 +25,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public static final int INVADER_ROW_HEIGHT = 50;
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
-    public static final int INVADER_NEXT_LINE_HEIGHT = 40;
+    public static final int INVADER_NEXT_LINE_HEIGHT = 50;
 
     private static final int INITIAL_SHOOTING_DELAY = 350;
     private JFrame frame;

@@ -15,9 +15,10 @@ public class InvaderShip implements GraphicalShape {
 
     private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
     private static final Color COLOR = Color.decode("#A6E22E");
+    private static final double CONSTANT_SPEED_UP = 0.001;
 
     private Area currentShape;
-    private int delta_X = 1;
+    private double delta_X = 1;
     private long lastTimeMove = 0;
     private boolean willChangeDirectionAfterCooldown = false;
     private final GameTimer gameTimer;
@@ -31,6 +32,7 @@ public class InvaderShip implements GraphicalShape {
     }
 
     public void Update(){
+        this.delta_X = this.delta_X + Math.signum(this.delta_X)*CONSTANT_SPEED_UP;
         if(IsInMovementCooldown()){
             if(this.willChangeDirectionAfterCooldown){
                 this.delta_X = - this.delta_X;
