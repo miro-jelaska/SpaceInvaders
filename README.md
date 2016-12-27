@@ -28,3 +28,11 @@ Color scheme is inspired by "monokai" color scheme. Colors used in game are:
 * ![#282828](http://placehold.it/15/282828/000000?text=+) `#282828` (StatusRibbon::Background)
 * ![#A6E22E](http://placehold.it/15/A6E22E/000000?text=+) `#A6E22E` (StatusRibbon::Title)
 * ![#E6DB74](http://placehold.it/15/E6DB74/000000?text=+) `#E6DB74` (StatusRibbon::Text)
+
+## Credits
+Audio effects used in the game were downloaded from www.freesound.org and were under CC license. Here I'll mention authors and their audio tracks which were used in this game.
+
+* [THE_bizniss](https://www.freesound.org/people/THE_bizniss) - [laser.wav](https://www.freesound.org/people/THE_bizniss/sounds/39459/)
+* [thatjeffcarter](https://www.freesound.org/people/thatjeffcarter) - [inception sound 3.wav](https://www.freesound.org/people/thatjeffcarter/sounds/106521)
+* [Julien Matthey](https://www.freesound.org/people/Julien%20Matthey) - [JM_FX_Boom 01a.wav](https://www.freesound.org/people/Julien%20Matthey/sounds/201571)
+* [qubodup](https://www.freesound.org/people/qubodup) - [Organic Laser Shot](https://www.freesound.org/people/qubodup/sounds/238991)
