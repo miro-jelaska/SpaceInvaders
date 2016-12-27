@@ -13,7 +13,8 @@ Bonus points are given by following function:
 This is actualy function of exponential decay where total amount N<sub>0</sub> is 1000 and exponential decay constant 𝛌 is 0.1 within general formula 
 ![equation](https://wikimedia.org/api/rest_v1/media/math/render/svg/baa07972d73b76745139edb5b4aa0aa3b9eac222).
 
- 
+![Bonus points plot](readme-resources/bonus-points-plot.png)
+
 ### Code snippet
 ``` Java
   private static final int TotalBonusPoints = 1000;
