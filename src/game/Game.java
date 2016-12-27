@@ -27,11 +27,11 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
     public static final int INVADER_NEXT_LINE_HEIGHT = 40;
 
+    private static final int INITIAL_SHOOTING_DELAY = 350;
     private JFrame frame;
     private boolean running = false;
     private int invaderShootingCooldownPeriod = 40;
     private long invaderShootingLastTime = 0;
-    private final int INITIAL_SHOOTING_DELAY_BECAUSE_OF_RENDER_PROBLEMS = 350;
     private final Color COLOR_BACKGROUND = new Color(35, 31, 32);
 
     public int Score = 0;
@@ -44,8 +44,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public final GameOverScreenOverlay gameOverScreenOverlay;
     public final List<HeroProjectile> allHeroProjectiles;
     public final List<InvaderShip> allInvaderShips;
-
     public final List<InvaderProjectile> allInvaderProjectiles;
+
     private final long StartTimeInSeconds = java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
@@ -172,7 +172,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Update();
 
-        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY_BECAUSE_OF_RENDER_PROBLEMS) > 0;
+        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
         boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
         if(isPastInitialDely && isPastCooldownTime){
             eventResolution.Push(new InvaderShipShoot());
