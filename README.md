@@ -6,9 +6,9 @@ Game of Space Invaders created in Java without any game framework.
 
 ## Useful resources
 
-* [gameprogrammingpatterns.com (Book)](http://gameprogrammingpatterns.com/)
-* [Killer Game Programming in Java (Book)](https://www.amazon.com/Killer-Game-Programming-Andrew-Davison/dp/0596007302#immersive-view_1419346106105)
-* [Ryan van Zeben :: Java 2D Game Engine Development (YouTube)](https://www.youtube.com/playlist?list=PL8CAB66181A502179)
+* [gameprogrammingpatterns.com (📖 Book)](http://gameprogrammingpatterns.com/)
+* [Killer Game Programming in Java (📖 Book)](https://www.amazon.com/Killer-Game-Programming-Andrew-Davison/dp/0596007302#immersive-view_1419346106105)
+* [Ryan van Zeben :: Java 2D Game Engine Development (📺 YouTube)](https://www.youtube.com/playlist?list=PL8CAB66181A502179)
 * [gamedev.stackexchange :: Tips for writing the main game loop?](http://gamedev.stackexchange.com/questions/651/tips-for-writing-the-main-game-loop)
 * [higherorderfun.com :: Understanding the Game Main Loop](http://higherorderfun.com/blog/2010/08/17/understanding-the-game-main-loop/)
 * [codeincomplete.com :: Javascript Game Foundations - The Game Loop](http://codeincomplete.com/posts/javascript-game-foundations-the-game-loop/)
