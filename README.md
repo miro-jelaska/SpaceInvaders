@@ -47,10 +47,9 @@ Color scheme is inspired by "monokai" color scheme. Colors used in game are:
 * ![#231f20](http://placehold.it/15/231f20/000000?text=+) `#231f20` (Game background)
 * ![#FFFFFF](http://placehold.it/15/FFFFFF/000000?text=+) `#FFFFFF` (Hero)
 * ![#F92672](http://placehold.it/15/f03c15/000000?text=+) `#F92672` (HeroProjectile)
-* ![#A6E22E](http://placehold.it/15/A6E22E/000000?text=+) `#A6E22E` (InvaderShip)
-* ![#AE81FF](http://placehold.it/15/AE81FF/000000?text=+) `#AE81FF` (InvaderProjectile)
+* ![#A6E22E](http://placehold.it/15/A6E22E/000000?text=+) `#A6E22E` (InvaderShip and StatusRibbon::Title)
+* ![#AE81FF](http://placehold.it/15/AE81FF/000000?text=+) `#AE81FF` (InvaderProjectile and Explosion)
 * ![#282828](http://placehold.it/15/282828/000000?text=+) `#282828` (StatusRibbon::Background)
-* ![#A6E22E](http://placehold.it/15/A6E22E/000000?text=+) `#A6E22E` (StatusRibbon::Title)
 * ![#E6DB74](http://placehold.it/15/E6DB74/000000?text=+) `#E6DB74` (StatusRibbon::Text)
 
 ## Credits
