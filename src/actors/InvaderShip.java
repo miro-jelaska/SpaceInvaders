@@ -3,6 +3,7 @@ package actors;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 import game.*;
 import utilities.GraphicalShape;
@@ -57,6 +58,9 @@ public class InvaderShip implements GraphicalShape {
         return this.willChangeDirectionAfterCooldown;
     }
 
+    public Point GetLocation(){
+        return new Point((int)currentShape.getBounds2D().getCenterX(), (int)currentShape.getBounds2D().getCenterY());
+    }
     @Override
     public void Paint(Graphics2D graphics) {
         graphics.setColor(COLOR);

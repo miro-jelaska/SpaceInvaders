@@ -9,6 +9,8 @@ import events.EventResolution;
 import events.commands.PlayIntroSound;
 import events.commands.InvaderShipShoot;
 import utilities.GameTimer;
+import vfx.Explosion;
+import vfx.VfxManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +28,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public static final int INVADER_WINDOW_MARGIN_TOP = 50;
     public static final int INVADER_WINDOW_MARGIN_LEFT = 50;
     public static final int INVADER_NEXT_LINE_HEIGHT = 50;
+    private static final int INITIAL_SHOOTING_DELAY = 250;
 
-    private static final int INITIAL_SHOOTING_DELAY = 350;
     private JFrame frame;
     private boolean running = false;
     private int invaderShootingCooldownPeriod = 40;
@@ -45,11 +47,13 @@ public class Game extends Canvas implements Runnable, GameTimer {
     public final List<HeroProjectile> allHeroProjectiles;
     public final List<InvaderShip> allInvaderShips;
     public final List<InvaderProjectile> allInvaderProjectiles;
+    public final List<Explosion> allExplosionVFX;
 
     private final long StartTimeInSeconds = java.time.LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
     private final InputHandler input;
     private final CollisionDetection collisionDetection;
     private final EventResolution eventResolution;
+    private final VfxManager vfxManager;
 
     public Game(){
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -75,7 +79,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
             for(int column = 0; column < 7; column++)
                 this.allInvaderShips.add(new InvaderShip(row, column));
         this.allInvaderProjectiles = new ArrayList<InvaderProjectile>();
+        this.allExplosionVFX = new ArrayList<Explosion>();
         this.collisionDetection = new CollisionDetection(this, this.eventResolution);
+        this.vfxManager = new VfxManager(this);
     }
 
     public synchronized void start(){
@@ -172,6 +178,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
         for(InvaderProjectile projectile: allInvaderProjectiles)
             projectile.Update();
 
+        for(Explosion explosion: allExplosionVFX)
+            explosion.Update();
+
         boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
         boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
         if(isPastInitialDely && isPastCooldownTime){
@@ -181,6 +190,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
         collisionDetection.Detect();
         eventResolution.Resolve();
+        vfxManager.Update();
     }
 
     private void render(){
@@ -203,6 +213,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
             projectile.Paint(graphics2D);
         for(InvaderShip invaderShip: allInvaderShips)
             invaderShip.Paint(graphics2D);
+        for(Explosion explosion: allExplosionVFX)
+            explosion.Paint(graphics2D);
         if(this.IsGameOver)
             gameOverScreenOverlay.Paint(graphics2D);
         statusRibbon.Paint(graphics2D);

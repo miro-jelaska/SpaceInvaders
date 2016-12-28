@@ -6,6 +6,7 @@ import game.Game;
 import resources.SoundEffectTracks;
 import utilities.Command;
 import utilities.SoundEffectPlayer;
+import vfx.Explosion;
 
 public class ExplodeInvaderShip implements Command {
     private final InvaderShip invaderShipThatIsHit;
@@ -22,6 +23,7 @@ public class ExplodeInvaderShip implements Command {
     public void Apply(Game game) {
         int indexOfExplodedShip = game.allInvaderShips.indexOf(invaderShipThatIsHit);
         if(indexOfExplodedShip >= 0){
+            game.allExplosionVFX.add(new Explosion(invaderShipThatIsHit.GetLocation()));
             game.allInvaderShips.remove(indexOfExplodedShip);
             SoundEffectPlayer.Play(SoundEffectTracks.GetTrackPath(SoundEffectTracks.Track.InvaderExplosion));
             game.Score = game.Score + 100 + bonusPointsWithExponentialDecay(game.GetRuntimeInSeconds());
