@@ -73,7 +73,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         this.allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
             for(int column = 0; column < 7; column++)
-                this.allInvaderShips.add(new InvaderShip(row, column, this));
+                this.allInvaderShips.add(new InvaderShip(row, column));
         this.allInvaderProjectiles = new ArrayList<InvaderProjectile>();
         this.collisionDetection = new CollisionDetection(this, this.eventResolution);
     }

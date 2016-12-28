@@ -19,31 +19,30 @@ public class InvaderShip implements GraphicalShape {
 
     private Area currentShape;
     private double delta_X = 1;
-    private long lastTimeMove = 0;
     private boolean willChangeDirectionAfterCooldown = false;
-    private final GameTimer gameTimer;
+    private long timeUntilNextMoveAvailable = 0;
 
-    public InvaderShip(int row, int column, GameTimer gameTimer){
+    public InvaderShip(int row, int column){
         Point location = new Point(
             column * Game.INVADER_COLUMN_WIDTH +  Game.INVADER_WINDOW_MARGIN_LEFT,
             row * Game.INVADER_ROW_HEIGHT + Game.INVADER_WINDOW_MARGIN_TOP);
-        this.gameTimer = gameTimer;
         this.currentShape = GenerateShape(location);
     }
 
     public void Update(){
         this.delta_X = this.delta_X + Math.signum(this.delta_X)*CONSTANT_SPEED_UP;
-        if(IsInMovementCooldown()){
+        if(timeUntilNextMoveAvailable <= 0){
             if(this.willChangeDirectionAfterCooldown){
                 this.delta_X = - this.delta_X;
                 this.willChangeDirectionAfterCooldown = false;
             }
-            lastTimeMove = gameTimer.GetCurrentUpdateCount();
 
             AffineTransform transform = new AffineTransform();
             transform.translate(delta_X, 0);
             currentShape.transform(transform);
+            timeUntilNextMoveAvailable = MOVEMENT_COOLDOWN_UPDATE_TIME + 1;
         }
+        timeUntilNextMoveAvailable = timeUntilNextMoveAvailable - 1;
     }
 
     public void MoveToNextLine(){
@@ -55,9 +54,6 @@ public class InvaderShip implements GraphicalShape {
         this.willChangeDirectionAfterCooldown = true;
     }
 
-    public boolean IsInMovementCooldown(){
-        return (gameTimer.GetCurrentUpdateCount() - lastTimeMove) >= MOVEMENT_COOLDOWN_UPDATE_TIME;
-    }
     public boolean IsGoingToChangeDirection(){
         return this.willChangeDirectionAfterCooldown;
     }
