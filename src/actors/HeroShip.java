@@ -15,20 +15,22 @@ public class HeroShip implements GraphicalShape {
     public static final int WIDTH = 100;
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.5;
-
     private static final int DELTA_X = 5;
     private static final int SHOOT_COOLDOWN_UPDATE_TIME = 30;
-    private final EventResolution eventResolution;
-    private final GameTimer gameTimer;
-    private final Area currentShape;
 
-    public HeroShip(EventResolution eventResolution, GameTimer gameTimer) {
+    private final EventResolution eventResolution;
+    private final Area currentShape;
+    private long timeUntilShootingAvailable = 0;
+
+    public HeroShip(EventResolution eventResolution) {
         Point location = new Point((int)(Game.CANVAS_WIDTH/2 - (WIDTH/2 * DRAWING_SCALE)), Game.CANVAS_HEIGHT - HEIGHT);
         this.eventResolution = eventResolution;
-        this.gameTimer = gameTimer;
         this.currentShape = generateShape(location);
     }
 
+    public void Update(){
+        timeUntilShootingAvailable = timeUntilShootingAvailable - 1;
+    }
     public void MoveLeft(){
         AffineTransform transform = new AffineTransform();
         if(CollisionDetection.IsShapeAtEdge_Left(this))
@@ -46,13 +48,12 @@ public class HeroShip implements GraphicalShape {
         currentShape.transform(transform);
     }
 
-    private long lastTimeShoot = 0;
     public void Shoot(){
-        if(gameTimer.GetCurrentUpdateCount() - lastTimeShoot > SHOOT_COOLDOWN_UPDATE_TIME){
+        if(timeUntilShootingAvailable <= 0){
             Rectangle2D shipBounds = this.currentShape.getBounds2D();
             Point projectileLocation = new Point((int)(shipBounds.getMinX()), (int)shipBounds.getMinY());
             eventResolution.Push(new HeroShipShoot(projectileLocation));
-            lastTimeShoot = gameTimer.GetCurrentUpdateCount();
+            timeUntilShootingAvailable = SHOOT_COOLDOWN_UPDATE_TIME;
         }
     }
 

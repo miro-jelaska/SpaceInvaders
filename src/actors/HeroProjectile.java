@@ -3,6 +3,7 @@ package actors;
 import utilities.GraphicalShape;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
 public class HeroProjectile implements GraphicalShape {
@@ -11,14 +12,19 @@ public class HeroProjectile implements GraphicalShape {
     private static final double DRAWING_SCALE = 1;
     private static final int DELTA_Y = 5;
     private static final Color COLOR = Color.decode("#F92672");
-    private final Point location;
+
+    private final Area shape;
 
     public HeroProjectile(Point location){
-        this.location = location;
+        this.shape = new Area(new Rectangle(
+                location.x, location.y,
+                (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
     }
 
     public void Update(){
-        this.location.setLocation(this.location.getX(), this.location.getY() - DELTA_Y);
+        AffineTransform transformation = new AffineTransform();
+        transformation.translate(0, - DELTA_Y);
+        this.shape.transform(transformation);
     }
 
     @Override
@@ -29,8 +35,6 @@ public class HeroProjectile implements GraphicalShape {
 
     @Override
     public Area GetGraphicalShape() {
-        return new Area(new Rectangle(
-                location.x, location.y,
-                (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
+        return this.shape;
     }
 }

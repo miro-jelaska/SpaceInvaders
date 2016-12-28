@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         this.statusRibbon = new StatusRibbon(this);
         this.gameOverScreenOverlay = new GameOverScreenOverlay(this);
         this.eventResolution = new EventResolution(this);
-        this.heroShip = new HeroShip(this.eventResolution, this);
+        this.heroShip = new HeroShip(this.eventResolution);
         this.allHeroProjectiles = new ArrayList<HeroProjectile>();
         this.allInvaderShips = new ArrayList<InvaderShip>();
         for (int row = 0; row < 5; row++)
@@ -160,6 +160,8 @@ public class Game extends Canvas implements Runnable, GameTimer {
     private void update(){
         if(this.GetCurrentUpdateCount() == 30)
             this.eventResolution.Push(new PlayIntroSound());
+
+        heroShip.Update();
 
         for(InvaderShip invader: allInvaderShips)
             invader.Update();
