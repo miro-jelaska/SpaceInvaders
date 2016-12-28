@@ -1,6 +1,7 @@
 package vfx;
 
 
+import utilities.DynamicElement;
 import utilities.GraphicalShape;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 
-public class Explosion implements GraphicalShape {
+public class Explosion implements GraphicalShape, DynamicElement {
     private static final Color COLOR = Color.decode("#AE81FF");
 
     private final int FRAME_RATE = 4;
@@ -28,6 +29,11 @@ public class Explosion implements GraphicalShape {
         };
     }
 
+    public boolean IsFinished(){
+        return this.isFinished;
+    }
+
+    @Override
     public void Update(){
         this.timeUntilNextFrame = this.timeUntilNextFrame - 1;
         if(this.timeUntilNextFrame <= 0){
@@ -39,10 +45,6 @@ public class Explosion implements GraphicalShape {
                 timeUntilNextFrame = FRAME_RATE;
             }
         }
-    }
-
-    public boolean IsFinished(){
-        return this.isFinished;
     }
 
     @Override

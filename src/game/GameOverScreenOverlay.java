@@ -25,7 +25,6 @@ public class GameOverScreenOverlay implements GraphicalShape{
 
     @Override
     public Area GetGraphicalShape() {
-        Area area = new Area(new Rectangle(0, StatusRibbon.HEIGHT, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT - StatusRibbon.HEIGHT));
-        return area;
+        return new Area(new Rectangle(0, StatusRibbon.HEIGHT, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT - StatusRibbon.HEIGHT));
     }
 }

@@ -1,10 +1,11 @@
 package actors;
 
+import utilities.DynamicElement;
 import utilities.GraphicalShape;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class InvaderProjectile implements GraphicalShape {
+public class InvaderProjectile implements GraphicalShape, DynamicElement {
     private static final int WIDTH = 8;
     private static final int HEIGHT = 20;
     private static final double DRAWING_SCALE = 1;
@@ -25,6 +26,7 @@ public class InvaderProjectile implements GraphicalShape {
         };
     }
 
+    @Override
     public void Update(){
         this.location.setLocation(this.location.getX(), this.location.getY() + DELTA_Y);
         this.timeUntilNextFrame = this.timeUntilNextFrame - 1;

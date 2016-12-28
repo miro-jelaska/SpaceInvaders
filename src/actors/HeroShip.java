@@ -11,7 +11,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
-public class HeroShip implements GraphicalShape {
+public class HeroShip implements GraphicalShape, DynamicElement {
     public static final int WIDTH = 100;
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.5;
@@ -28,9 +28,6 @@ public class HeroShip implements GraphicalShape {
         this.currentShape = generateShape(location);
     }
 
-    public void Update(){
-        timeUntilShootingAvailable = timeUntilShootingAvailable - 1;
-    }
     public void MoveLeft(){
         AffineTransform transform = new AffineTransform();
         if(CollisionDetection.IsShapeAtEdge_Left(this))
@@ -55,6 +52,11 @@ public class HeroShip implements GraphicalShape {
             eventResolution.Push(new HeroShipShoot(projectileLocation));
             timeUntilShootingAvailable = SHOOT_COOLDOWN_UPDATE_TIME;
         }
+    }
+
+    @Override
+    public void Update(){
+        timeUntilShootingAvailable = timeUntilShootingAvailable - 1;
     }
 
     @Override

@@ -121,14 +121,14 @@ public class Game extends Canvas implements Runnable, GameTimer {
             boolean shouldRender = false;
 
             /*  If the game gets too slow, for whatever reason,
-                this will force at least 1 render for every MAX_FPS_LAG_AFTER_UPS updates. */
+                this will force at least 1 Render for every MAX_FPS_LAG_AFTER_UPS updates. */
             if(delta > MAX_FPS_LAG_AFTER_UPS)
                 delta = MAX_FPS_LAG_AFTER_UPS;
 
             while(delta >= 1){
                 if(!IsGameOver){
-                    processInput();
-                    update();
+                    ProcessInput();
+                    Update();
 
                     updatesCount++;
                     this.totalUpdateCount++;
@@ -138,13 +138,13 @@ public class Game extends Canvas implements Runnable, GameTimer {
             }
 
             if(shouldRender){
-                render();
+                Render();
 
                 framesCount++;
             }
 
-            boolean isReadyToDisplayUpsAndFpsReadings = (System.currentTimeMillis() - lastUpsAndFpsReading_inMillis) > MILLIS_IN_SECOND;
-            if(isReadyToDisplayUpsAndFpsReadings){
+            boolean isReadyToRefreshUpsAndFpsReadings = (System.currentTimeMillis() - lastUpsAndFpsReading_inMillis) > MILLIS_IN_SECOND;
+            if(isReadyToRefreshUpsAndFpsReadings){
                 lastUpsAndFpsReading_inMillis += MILLIS_IN_SECOND;
                 frame.setTitle("Space Invaders (ups: " + updatesCount + " | fps: " + framesCount + ")");
                 framesCount = 0;
@@ -152,7 +152,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
             }
         }
     }
-    private void processInput(){
+    private void ProcessInput(){
         if(input.right.isKeyDown())
             heroShip.MoveRight();
 
@@ -163,10 +163,24 @@ public class Game extends Canvas implements Runnable, GameTimer {
             heroShip.Shoot();
     }
 
-    private void update(){
+    private void Update(){
+        UpdateDynamicElements();
+
         if(this.GetCurrentUpdateCount() == 30)
             this.eventResolution.Push(new PlayIntroSound());
 
+        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
+        boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
+        if(isPastInitialDely && isPastCooldownTime){
+            eventResolution.Push(new InvaderShipShoot());
+            invaderShootingLastTime = this.GetCurrentUpdateCount();
+        }
+
+        collisionDetection.Detect();
+        eventResolution.Resolve();
+        vfxManager.Update();
+    }
+    private void UpdateDynamicElements(){
         heroShip.Update();
 
         for(InvaderShip invader: allInvaderShips)
@@ -180,20 +194,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
         for(Explosion explosion: allExplosionVFX)
             explosion.Update();
-
-        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
-        boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
-        if(isPastInitialDely && isPastCooldownTime){
-            eventResolution.Push(new InvaderShipShoot());
-            invaderShootingLastTime = this.GetCurrentUpdateCount();
-        }
-
-        collisionDetection.Detect();
-        eventResolution.Resolve();
-        vfxManager.Update();
     }
 
-    private void render(){
+    private void Render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
             createBufferStrategy(3);

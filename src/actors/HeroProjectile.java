@@ -1,12 +1,13 @@
 package actors;
 
+import utilities.DynamicElement;
 import utilities.GraphicalShape;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
-public class HeroProjectile implements GraphicalShape {
+public class HeroProjectile implements GraphicalShape, DynamicElement {
     private static final int WIDTH = 4;
     private static final int HEIGHT = 6;
     private static final double DRAWING_SCALE = 1;
@@ -21,6 +22,7 @@ public class HeroProjectile implements GraphicalShape {
                 (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
     }
 
+    @Override
     public void Update(){
         AffineTransform transformation = new AffineTransform();
         transformation.translate(0, - DELTA_Y);
