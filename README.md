@@ -1,6 +1,7 @@
 # Space Invaders
 Game of Space Invaders created in Java without any game framework.
-Runnable jar can be found at ["SpaceInvaders/readme-resources/SpaceInvaders-MiroslavJelaska.jar"](https://github.com/MiroslavJelaska/SpaceInvaders/blob/master/readme-resources/SpaceInvaders-MiroslavJelaska.jar?raw=true).
+
+Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-MiroslavJelaska.jar](https://github.com/MiroslavJelaska/SpaceInvaders/blob/master/readme-resources/SpaceInvaders-MiroslavJelaska.jar?raw=true).
 <img src="readme-resources/screenshot2.png" alt="Screenshot" width="400"/>
 
 # Game mechanics
