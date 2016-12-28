@@ -1,6 +1,6 @@
 # Space Invaders
 Game of Space Invaders created in Java without any game framework.
-<img src="readme-resources/screenshot.png" alt="Screenshot" width="400"/>
+<img src="readme-resources/screenshot2.png" alt="Screenshot" width="400"/>
 
 # Game mechanics
 # Points
