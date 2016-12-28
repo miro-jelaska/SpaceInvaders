@@ -35,7 +35,6 @@ public class StatusRibbon implements GraphicalShape{
 
     @Override
     public Area GetGraphicalShape() {
-        Area area = new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, HEIGHT));
-        return area;
+        return new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, HEIGHT));
     }
 }

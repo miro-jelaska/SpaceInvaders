@@ -3,7 +3,6 @@ package game;
 import utilities.GraphicalShape;
 
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.awt.geom.Area;
 
 public class GameOverScreenOverlay implements GraphicalShape{

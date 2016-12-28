@@ -5,7 +5,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.Arrays;
 import game.*;
-import utilities.GameTimer;
 import utilities.GraphicalShape;
 
 public class InvaderShip implements GraphicalShape {
@@ -13,12 +12,12 @@ public class InvaderShip implements GraphicalShape {
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.20;
 
-    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 5;
+    private static final int MOVEMENT_COOLDOWN_UPDATE_TIME = 2;
     private static final Color COLOR = Color.decode("#A6E22E");
     private static final double CONSTANT_SPEED_UP = 0.001;
 
     private Area currentShape;
-    private double delta_X = 1;
+    private double delta_X = 0.5;
     private boolean willChangeDirectionAfterCooldown = false;
     private long timeUntilNextMoveAvailable = 0;
 

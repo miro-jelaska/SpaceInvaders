@@ -1,9 +1,8 @@
 package actors;
 
-import utilities.GameTimer;
 import utilities.GraphicalShape;
 import java.awt.*;
-import java.awt.geom.Area;
+import java.awt.geom.*;
 
 public class InvaderProjectile implements GraphicalShape {
     private static final int WIDTH = 8;
@@ -12,61 +11,79 @@ public class InvaderProjectile implements GraphicalShape {
     private static final int DELTA_Y = 5;
     private static final Color COLOR = Color.decode("#AE81FF");
     private final Point location;
-    private final GameTimer gameTimer;
 
-    public InvaderProjectile(Point location, GameTimer gameTimer){
+    private final int FRAME_RATE = 2;
+    private int timeUntilNextFrame = 0;
+    private int currentFrameIndex = 0;
+    private final Area[] frames;
+
+    public InvaderProjectile(Point location){
         this.location = location;
-        this.gameTimer = gameTimer;
+        frames = new Area[]{
+            getAnimationFrame(0, location),
+            getAnimationFrame(1, location)
+        };
     }
 
     public void Update(){
         this.location.setLocation(this.location.getX(), this.location.getY() + DELTA_Y);
+        this.timeUntilNextFrame = this.timeUntilNextFrame - 1;
+        if(this.timeUntilNextFrame <= 0){
+            currentFrameIndex = (currentFrameIndex + 1) % frames.length;
+            timeUntilNextFrame = FRAME_RATE;
+        }
+        for (Area area : frames) {
+            AffineTransform transformation = new AffineTransform();
+            transformation.translate(0, DELTA_Y);
+            area.transform(transformation);
+        }
     }
 
-    private final double animationOmega = 0.15;
     @Override
     public void Paint(Graphics2D graphics) {
-
-        int signLeft = (int)Math.signum(Math.sin(animationOmega * gameTimer.GetCurrentUpdateCount()));
-        signLeft = signLeft > 0 ? signLeft : 0;
-
-        int signRight = (int)Math.signum(Math.sin(animationOmega * gameTimer.GetCurrentUpdateCount() + Math.PI));
-        signRight = signRight > 0 ? signRight : 0;
-
-        if(signLeft == 0 && signRight == 0)
-            signLeft = 1;
-
         graphics.setColor(COLOR);
-        graphics.drawLine(
-            location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
-            location.y,
-            location.x + signRight*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.25* DRAWING_SCALE));
-        graphics.drawLine(
-            location.x + signRight*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.25* DRAWING_SCALE),
-            location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.5* DRAWING_SCALE));
-        graphics.drawLine(
-            location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.5* DRAWING_SCALE),
-            location.x + signRight*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.75* DRAWING_SCALE));
-        graphics.drawLine(
-            location.x + signRight*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*0.75* DRAWING_SCALE),
-            location.x + signLeft*(int)(WIDTH* DRAWING_SCALE),
-            location.y + (int)(HEIGHT*1.0* DRAWING_SCALE));
-
-        graphics.drawLine(
-            location.x + (int)(WIDTH/2 * DRAWING_SCALE), location.y,
-            location.x + (int)(WIDTH/2 * DRAWING_SCALE), (int)(location.y + HEIGHT* DRAWING_SCALE));
+        graphics.fill(frames[currentFrameIndex]);
     }
 
     @Override
     public Area GetGraphicalShape() {
-        return new Area(new Rectangle(
-                location.x, location.y,
-                (int)(WIDTH * DRAWING_SCALE), (int)(HEIGHT * DRAWING_SCALE)));
+        return frames[currentFrameIndex];
+    }
+
+    private static Area getAnimationFrame(int frameIndex, Point location){
+        Area area = new Area();
+
+        if(frameIndex == 0){
+            area.add(new Area(new Rectangle(
+                location.x, location.y + 2,
+                1, (int)(HEIGHT*DRAWING_SCALE) - 4
+            )));
+
+            area.add(new Area(new Rectangle(
+                location.x + 2, location.y,
+                1, (int)(HEIGHT* DRAWING_SCALE)
+            )));
+            area.add(new Area(new Rectangle(
+                    location.x + 4, location.y,
+                    1, (int)(HEIGHT* DRAWING_SCALE)
+            )));
+        }
+
+        if(frameIndex == 1){
+            area.add(new Area(new Rectangle(
+                    location.x + 3, location.y,
+                    1, (int)(HEIGHT* DRAWING_SCALE)
+            )));
+            area.add(new Area(new Rectangle(
+                    location.x + 5, location.y,
+                    1, (int)(HEIGHT* DRAWING_SCALE)
+            )));
+            area.add(new Area(new Rectangle(
+                    location.x + 7, location.y + 2,
+                    1, (int)(HEIGHT* DRAWING_SCALE) - 4
+            )));
+        }
+
+        return area;
     }
 }
