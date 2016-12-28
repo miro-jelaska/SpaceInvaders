@@ -147,16 +147,14 @@ public class Game extends Canvas implements Runnable, GameTimer {
         }
     }
     private void processInput(){
-        if(input.right.isKeyDown()){
+        if(input.right.isKeyDown())
             heroShip.MoveRight();
-        }
-        if(input.left.isKeyDown()){
-            heroShip.MoveLeft();
-        }
 
-        if(input.space.isKeyDown()){
+        if(input.left.isKeyDown())
+            heroShip.MoveLeft();
+
+        if(input.space.isKeyDown())
             heroShip.Shoot();
-        }
     }
 
     private void update(){
@@ -195,7 +193,7 @@ public class Game extends Canvas implements Runnable, GameTimer {
         graphics.fillRect(0, 0, getWidth(), getHeight());
 
         Graphics2D graphics2D = (Graphics2D) graphics;
-        
+
         for(HeroProjectile heroProjectile: allHeroProjectiles)
             heroProjectile.Paint(graphics2D);
         heroShip.Paint(graphics2D);
