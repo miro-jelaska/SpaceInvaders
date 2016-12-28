@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 public class Explosion implements GraphicalShape {
     private static final Color COLOR = Color.decode("#AE81FF");
 
-    private final int FRAME_RATE = 5;
+    private final int FRAME_RATE = 4;
     private int timeUntilNextFrame = 0;
     private int currentFrameIndex = 0;
     private boolean isFinished = false;
@@ -24,6 +24,7 @@ public class Explosion implements GraphicalShape {
             getAnimationFrame(1, location),
             getAnimationFrame(2, location),
             getAnimationFrame(3, location),
+            getAnimationFrame(4, location),
         };
     }
 
