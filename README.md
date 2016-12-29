@@ -4,6 +4,15 @@ Game of Space Invaders created in Java without any game framework.
 Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-MiroslavJelaska.jar](https://github.com/MiroslavJelaska/SpaceInvaders/blob/master/readme-resources/SpaceInvaders-MiroslavJelaska.jar?raw=true).
 <img src="readme-resources/screenshot2.png" alt="Screenshot" width="400"/>
 
+# Game elements
+Visual representation | Package and class name
+------------ | -------------
+<img src="readme-resources/HeroShip.png" alt="HeroShip" width="100"/> | actors.HeroShip
+<img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="100"/> | actors.HeroProjectile
+<img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="100"/> | actors.InvaderShip
+<img src="readme-resources/InvaderProjectile - animation.gif" alt="InvaderProjectile" width="100"/> | actors.InvaderProjectile
+<img src="readme-resources/Explosion - animation.gif" alt="Explosion" width="100"/> | vfx.Explosion
+
 # Game mechanics
 # Points
 Points are gained by destroying invader ships, 100 points per each. Bonus points are added for each destroyed ship depending on the time it was destroyed. The sooner in gameplay ship gets destroyed the more bonus points are gained.
