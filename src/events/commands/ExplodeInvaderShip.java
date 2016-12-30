@@ -32,8 +32,8 @@ public class ExplodeInvaderShip implements Command {
         }
     }
     private static final int TotalBonusPoints = 1000;
-    private static final double ExponentialDecayConstant = -0.1;
+    private static final double ExponentialDecayConstant = 0.1;
     private int bonusPointsWithExponentialDecay(long time){
-        return (int)(TotalBonusPoints * Math.exp(ExponentialDecayConstant * time));
+        return (int)(TotalBonusPoints * Math.exp(-ExponentialDecayConstant * time));
     }
 }

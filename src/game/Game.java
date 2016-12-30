@@ -12,6 +12,7 @@ import ui.GameOverScreenOverlay;
 import ui.StatusRibbon;
 import utilities.DynamicElement;
 import utilities.GameTimer;
+import utilities.GraphicalShape;
 import utilities.InputHandler;
 import vfx.Explosion;
 import vfx.VfxManager;
@@ -211,18 +212,18 @@ public class Game extends Canvas implements Runnable, GameTimer {
 
         Graphics2D graphics2D = (Graphics2D) graphics;
 
-        for(HeroProjectile heroProjectile: allHeroProjectiles)
-            heroProjectile.Paint(graphics2D);
-        heroShip.Paint(graphics2D);
-        for(InvaderProjectile projectile: allInvaderProjectiles)
-            projectile.Paint(graphics2D);
-        for(InvaderShip invaderShip: allInvaderShips)
-            invaderShip.Paint(graphics2D);
-        for(Explosion explosion: allExplosionVFX)
-            explosion.Paint(graphics2D);
+        Stream
+            .of(
+                allInvaderShips,
+                allInvaderProjectiles,
+                allHeroProjectiles,
+                allExplosionVFX,
+                Arrays.asList(heroShip, statusRibbon))
+            .<GraphicalShape>flatMap(dynamicElements -> dynamicElements.stream())
+            .forEach(shape -> shape.Paint(graphics2D));
+
         if(this.IsGameOver)
             gameOverScreenOverlay.Paint(graphics2D);
-        statusRibbon.Paint(graphics2D);
 
         bs.show();
         graphics2D.dispose();
