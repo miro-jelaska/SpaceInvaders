@@ -1,5 +1,6 @@
 package actors;
 
+import utilities.CollisionalShape;
 import utilities.DynamicElement;
 import utilities.GraphicalShape;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
-public class HeroProjectile implements GraphicalShape, DynamicElement {
+public class HeroProjectile implements GraphicalShape, CollisionalShape, DynamicElement {
     private static final int WIDTH = 4;
     private static final int HEIGHT = 6;
     private static final double DRAWING_SCALE = 1;
@@ -32,11 +33,11 @@ public class HeroProjectile implements GraphicalShape, DynamicElement {
     @Override
     public void Paint(Graphics2D graphics) {
         graphics.setColor(COLOR);
-        graphics.fill(GetGraphicalShape());
+        graphics.fill(GetCollisionArea());
     }
 
     @Override
-    public Area GetGraphicalShape() {
+    public Area GetCollisionArea() {
         return this.shape;
     }
 }

@@ -18,7 +18,7 @@ public class InvaderShipShoot implements Command {
             return;
 
         InvaderShip randomInvader = game.allInvaderShips.get(new Random().nextInt(game.allInvaderShips.size()));
-        Rectangle2D randomInvaderBounds2D = randomInvader.GetGraphicalShape().getBounds2D();
+        Rectangle2D randomInvaderBounds2D = randomInvader.GetCollisionArea().getBounds2D();
         Point projectileLocation = new Point(
             (int)(randomInvaderBounds2D.getX() + InvaderShip.WIDTH / 2 * InvaderShip.DRAWING_SCALE),
             (int)(randomInvaderBounds2D.getY()));

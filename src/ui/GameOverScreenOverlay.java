@@ -1,5 +1,6 @@
-package game;
+package ui;
 
+import game.Game;
 import utilities.GraphicalShape;
 
 import java.awt.*;
@@ -14,17 +15,12 @@ public class GameOverScreenOverlay implements GraphicalShape{
     @Override
     public void Paint(Graphics2D graphics) {
         graphics.setColor(new Color(0, 0, 0, 175));
-        Area background = GetGraphicalShape();
+        Area background = new Area(new Rectangle(0, StatusRibbon.HEIGHT, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT - StatusRibbon.HEIGHT));
         graphics.fill(background);
 
         graphics.setColor(Color.white);
         graphics.setFont(new Font("Arial Black", Font.PLAIN, 25));
         String message = game.PlayerWon ? "YOU WON" : "YOU LOST";
         graphics.drawString(message, Game.CANVAS_WIDTH/2 - 60, (int)(Game.CANVAS_HEIGHT*0.4));
-    }
-
-    @Override
-    public Area GetGraphicalShape() {
-        return new Area(new Rectangle(0, StatusRibbon.HEIGHT, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT - StatusRibbon.HEIGHT));
     }
 }

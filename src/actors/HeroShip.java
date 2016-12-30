@@ -11,7 +11,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
-public class HeroShip implements GraphicalShape, DynamicElement {
+public class HeroShip implements GraphicalShape, CollisionalShape, DynamicElement {
     public static final int WIDTH = 100;
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.5;
@@ -62,12 +62,12 @@ public class HeroShip implements GraphicalShape, DynamicElement {
     @Override
     public void Paint(Graphics2D graphics){
         graphics.setColor(Color.white);
-        Area heroShipDrawingShape = GetGraphicalShape();
+        Area heroShipDrawingShape = GetCollisionArea();
         graphics.fill(heroShipDrawingShape);
     }
 
     @Override
-    public Area GetGraphicalShape() {
+    public Area GetCollisionArea() {
         return currentShape;
     }
 

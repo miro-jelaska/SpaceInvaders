@@ -4,7 +4,7 @@ import actors.*;
 import events.EventResolution;
 import events.commands.*;
 import game.Game;
-import utilities.GraphicalShape;
+import utilities.CollisionalShape;
 
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -53,25 +53,25 @@ public class CollisionDetection {
             eventResolution.Push(new EndGame(false));
     }
 
-    public static boolean IsShapeAtEdge_Left(GraphicalShape shape){
-        return shape.GetGraphicalShape().getBounds2D().getMinX() <= 0;
+    public static boolean IsShapeAtEdge_Left(CollisionalShape shape){
+        return shape.GetCollisionArea().getBounds2D().getMinX() <= 0;
     }
-    public static boolean IsShapeAtEdge_Right(GraphicalShape shape){
-        return shape.GetGraphicalShape().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
+    public static boolean IsShapeAtEdge_Right(CollisionalShape shape){
+        return shape.GetCollisionArea().getBounds2D().getMaxX() >= Game.CANVAS_WIDTH;
     }
-    public static boolean IsShapeAtEdge_Bottom(GraphicalShape shape){
-        return shape.GetGraphicalShape().getBounds2D().getMaxY() >= Game.CANVAS_HEIGHT;
+    public static boolean IsShapeAtEdge_Bottom(CollisionalShape shape){
+        return shape.GetCollisionArea().getBounds2D().getMaxY() >= Game.CANVAS_HEIGHT;
     }
-    public static boolean IsShapeOutsideWindow(GraphicalShape shape){
-        Rectangle2D bounds2D = shape.GetGraphicalShape().getBounds2D();
+    public static boolean IsShapeOutsideWindow(CollisionalShape shape){
+        Rectangle2D bounds2D = shape.GetCollisionArea().getBounds2D();
         return
             bounds2D.getMaxX() < 0 ||
             bounds2D.getMinX() > Game.CANVAS_WIDTH ||
             bounds2D.getMaxY() < 0 ||
             bounds2D.getMinY() > Game.CANVAS_HEIGHT;
     }
-    private static boolean areTwoShapesInCollision(GraphicalShape firstShape, GraphicalShape secondShape){
-        return areTwoShapesInCollision(firstShape.GetGraphicalShape(), secondShape.GetGraphicalShape());
+    private static boolean areTwoShapesInCollision(CollisionalShape firstShape, CollisionalShape secondShape){
+        return areTwoShapesInCollision(firstShape.GetCollisionArea(), secondShape.GetCollisionArea());
     }
     private static boolean areTwoShapesInCollision(Area firstShape, Area secondShape){
         Area firstShapeCopy = new Area(firstShape);

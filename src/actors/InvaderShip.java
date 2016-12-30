@@ -3,12 +3,12 @@ package actors;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.Arrays;
 import game.*;
+import utilities.CollisionalShape;
 import utilities.GraphicalShape;
 
-public class InvaderShip implements GraphicalShape {
+public class InvaderShip implements GraphicalShape, CollisionalShape {
     public static final int WIDTH = 110;
     public static final int HEIGHT = 80;
     public static final double DRAWING_SCALE = 0.20;
@@ -64,12 +64,12 @@ public class InvaderShip implements GraphicalShape {
     @Override
     public void Paint(Graphics2D graphics) {
         graphics.setColor(COLOR);
-        Area heroShipDrawingPoints = GetGraphicalShape();
+        Area heroShipDrawingPoints = currentShape;
         graphics.fill(heroShipDrawingPoints);
     }
 
     @Override
-    public Area GetGraphicalShape() {
+    public Area GetCollisionArea() {
         return currentShape;
     }
 

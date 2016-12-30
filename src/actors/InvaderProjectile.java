@@ -1,11 +1,12 @@
 package actors;
 
+import utilities.CollisionalShape;
 import utilities.DynamicElement;
 import utilities.GraphicalShape;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class InvaderProjectile implements GraphicalShape, DynamicElement {
+public class InvaderProjectile implements GraphicalShape, CollisionalShape, DynamicElement {
     private static final int WIDTH = 8;
     private static final int HEIGHT = 20;
     private static final double DRAWING_SCALE = 1;
@@ -48,7 +49,7 @@ public class InvaderProjectile implements GraphicalShape, DynamicElement {
     }
 
     @Override
-    public Area GetGraphicalShape() {
+    public Area GetCollisionArea() {
         return frames[currentFrameIndex];
     }
 

@@ -1,5 +1,6 @@
-package game;
+package ui;
 
+import game.Game;
 import utilities.GraphicalShape;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class StatusRibbon implements GraphicalShape{
     @Override
     public void Paint(Graphics2D graphics) {
         graphics.setColor(COLOR_GRAY);
-        Area background = GetGraphicalShape();
+        Area background = new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, HEIGHT));
         graphics.fill(background);
         graphics.setFont(new Font("Consolas", Font.PLAIN, 12));
         graphics.setColor(COLOR_YELLOW);
@@ -31,10 +32,5 @@ public class StatusRibbon implements GraphicalShape{
     private String GetFormatedTimeFromSeconds(long seconds){
         String secondPart = (seconds%60) < 10 ? "0" + String.valueOf(seconds%60) : String.valueOf(seconds%60);
         return String.valueOf(seconds/60) + ":" + secondPart;
-    }
-
-    @Override
-    public Area GetGraphicalShape() {
-        return new Area(new Rectangle(0, 0, Game.CANVAS_WIDTH, HEIGHT));
     }
 }

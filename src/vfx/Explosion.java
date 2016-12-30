@@ -1,6 +1,7 @@
 package vfx;
 
 
+import utilities.CollisionalShape;
 import utilities.DynamicElement;
 import utilities.GraphicalShape;
 
@@ -10,7 +11,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 
-public class Explosion implements GraphicalShape, DynamicElement {
+public class Explosion implements GraphicalShape, CollisionalShape, DynamicElement {
     private static final Color COLOR = Color.decode("#AE81FF");
 
     private final int FRAME_RATE = 4;
@@ -54,7 +55,7 @@ public class Explosion implements GraphicalShape, DynamicElement {
     }
 
     @Override
-    public Area GetGraphicalShape() {
+    public Area GetCollisionArea() {
         return frames[currentFrameIndex];
     }
 
