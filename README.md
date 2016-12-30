@@ -7,14 +7,17 @@ Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-Miros
 # Game elements
 Visual representation | Package and class name | Type
 ------------ | ------------- | -------------
-<img src="readme-resources/JFrame and Canvas.png" alt="HeroShip" width="100"/> | javax.swing.JFrame and java.awt.Canvas | ui
-<img src="readme-resources/GameOverScreenOverlay - You Won.png" alt="HeroShip" width="150"/> <img src="readme-resources/GameOverScreenOverlay - You Lost.png" alt="HeroShip" width="150"/> | ui.GameOverScreenOverlay | ui
-<img src="readme-resources/StatusRibbon.png" alt="HeroShip" width="350"/> | ui.StatusRibbon| ui
-<img src="readme-resources/HeroShip.png" alt="HeroShip" width="100"/> | actors.HeroShip | actor
-<img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="100"/> | actors.HeroProjectile | actor
-<img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="100"/> | actors.InvaderShip | actor
-<img src="readme-resources/InvaderProjectile - animation.gif" alt="InvaderProjectile" width="100"/> | actors.InvaderProjectile | actor
-<img src="readme-resources/Explosion - animation.gif" alt="Explosion" width="100"/> | vfx.Explosion | vfx
+<img src="readme-resources/JFrame and Canvas.png" alt="JFrame and Canvas" width="100"/> | game.Game (javax.swing.JFrame and java.awt.Canvas) | ui
+<img src="readme-resources/GameOverScreenOverlay - You Won.png" alt="GameOverScreenOverlay - You Won" width="150"/> <img src="readme-resources/GameOverScreenOverlay - You Lost.png" alt="GameOverScreenOverlay - You Lost" width="150"/> | ui.GameOverScreenOverlay | ui
+<img src="readme-resources/StatusRibbon.png" alt="StatusRibbon" width="350"/> | ui.StatusRibbon| ui
+<img src="readme-resources/HeroShip.png" alt="HeroShip" width="75"/> | actors.HeroShip | actor
+<img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="50"/> | actors.HeroProjectile | actor
+<img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="75"/> | actors.InvaderShip | actor
+<img src="readme-resources/InvaderProjectile - animation.gif" alt="InvaderProjectile" width="50"/> | actors.InvaderProjectile | actor
+<img src="readme-resources/Explosion - animation.gif" alt="Explosion" width="75"/> | vfx.Explosion | vfx
+
+# Execution flow
+<img src="readme-resources/Flow diagram for SpaceInvaders.png" alt="Explosion" width="350"/> 
 
 # Game mechanics
 # Points
@@ -27,7 +30,7 @@ Bonus points are given by following function:
 This is actualy function of exponential decay where total amount N<sub>0</sub> is 1000 and exponential decay constant 𝛌 is 0.1 within general formula 
 ![equation](https://wikimedia.org/api/rest_v1/media/math/render/svg/baa07972d73b76745139edb5b4aa0aa3b9eac222).
 
-![Bonus points plot](readme-resources/bonus-points-plot.png)
+<img src="readme-resources/bonus-points-plot.png" alt="Bonus points plot" width="250"/>
 
 ### Code snippet
 ``` Java
