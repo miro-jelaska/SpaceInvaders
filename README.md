@@ -8,8 +8,8 @@ Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-Miros
 Visual representation | Package and class name | Type
 ------------ | ------------- | -------------
 <img src="readme-resources/JFrame and Canvas.png" alt="HeroShip" width="100"/> | javax.swing.JFrame and java.awt.Canvas | ui
-<img src="readme-resources/GameOverScreenOverlay - You Won.png" alt="HeroShip" width="100"/> <img src="readme-resources/GameOverScreenOverlay - You Lost.png" alt="HeroShip" width="100"/> | ui.GameOverScreenOverlay | ui
-<img src="readme-resources/StatusRibbon.png" alt="HeroShip" width="100"/> | ui.StatusRibbon| ui
+<img src="readme-resources/GameOverScreenOverlay - You Won.png" alt="HeroShip" width="150"/> <img src="readme-resources/GameOverScreenOverlay - You Lost.png" alt="HeroShip" width="150"/> | ui.GameOverScreenOverlay | ui
+<img src="readme-resources/StatusRibbon.png" alt="HeroShip" width="350"/> | ui.StatusRibbon| ui
 <img src="readme-resources/HeroShip.png" alt="HeroShip" width="100"/> | actors.HeroShip | actor
 <img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="100"/> | actors.HeroProjectile | actor
 <img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="100"/> | actors.InvaderShip | actor
