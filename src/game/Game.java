@@ -10,6 +10,7 @@ import events.commands.PlayIntroSound;
 import events.commands.InvaderShipShoot;
 import ui.GameOverScreenOverlay;
 import ui.StatusRibbon;
+import utilities.DynamicElement;
 import utilities.GameTimer;
 import utilities.InputHandler;
 import vfx.Explosion;
@@ -22,6 +23,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 public class Game extends Canvas implements Runnable, GameTimer {
     public static final int CANVAS_WIDTH = 500;
@@ -184,19 +187,15 @@ public class Game extends Canvas implements Runnable, GameTimer {
         vfxManager.Update();
     }
     private void UpdateDynamicElements(){
-        heroShip.Update();
-
-        for(InvaderShip invader: allInvaderShips)
-            invader.Update();
-
-        for(HeroProjectile heroProjectile : allHeroProjectiles)
-            heroProjectile.Update();
-
-        for(InvaderProjectile projectile: allInvaderProjectiles)
-            projectile.Update();
-
-        for(Explosion explosion: allExplosionVFX)
-            explosion.Update();
+        Stream
+            .of(
+                Arrays.asList(heroShip),
+                allInvaderShips,
+                allInvaderProjectiles,
+                allHeroProjectiles,
+                allExplosionVFX)
+            .<DynamicElement>flatMap(dynamicElements -> dynamicElements.stream())
+            .forEach(DynamicElement::Update);
     }
 
     private void Render(){
