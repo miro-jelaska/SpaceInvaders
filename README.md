@@ -5,13 +5,16 @@ Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-Miros
 <img src="readme-resources/screenshot2.png" alt="Screenshot" width="400"/>
 
 # Game elements
-Visual representation | Package and class name
------------- | -------------
-<img src="readme-resources/HeroShip.png" alt="HeroShip" width="100"/> | actors.HeroShip
-<img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="100"/> | actors.HeroProjectile
-<img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="100"/> | actors.InvaderShip
-<img src="readme-resources/InvaderProjectile - animation.gif" alt="InvaderProjectile" width="100"/> | actors.InvaderProjectile
-<img src="readme-resources/Explosion - animation.gif" alt="Explosion" width="100"/> | vfx.Explosion
+Visual representation | Package and class name | Type
+------------ | ------------- | -------------
+<img src="readme-resources/JFrame and Canvas.png" alt="HeroShip" width="100"/> | javax.swing.JFrame and java.awt.Canvas | ui
+<img src="readme-resources/GameOverScreenOverlay - You Won.png" alt="HeroShip" width="100"/> <img src="readme-resources/GameOverScreenOverlay - You Lost.png" alt="HeroShip" width="100"/> | ui.GameOverScreenOverlay | ui
+<img src="readme-resources/StatusRibbon.png" alt="HeroShip" width="100"/> | ui.StatusRibbon| ui
+<img src="readme-resources/HeroShip.png" alt="HeroShip" width="100"/> | actors.HeroShip | actor
+<img src="readme-resources/HeroProjectile.png" alt="HeroProjectile" width="100"/> | actors.HeroProjectile | actor
+<img src="readme-resources/InvaderShip.png" alt="InvaderShip" width="100"/> | actors.InvaderShip | actor
+<img src="readme-resources/InvaderProjectile - animation.gif" alt="InvaderProjectile" width="100"/> | actors.InvaderProjectile | actor
+<img src="readme-resources/Explosion - animation.gif" alt="Explosion" width="100"/> | vfx.Explosion | vfx
 
 # Game mechanics
 # Points
