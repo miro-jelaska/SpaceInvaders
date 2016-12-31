@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public class Game extends Canvas implements Runnable, GameTimer {
@@ -176,9 +175,9 @@ public class Game extends Canvas implements Runnable, GameTimer {
         if(this.GetCurrentUpdateCount() == 30)
             this.eventResolution.Push(new PlayIntroSound());
 
-        boolean isPastInitialDely = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
+        boolean isPastInitialDelay = (this.GetCurrentUpdateCount() - INITIAL_SHOOTING_DELAY) > 0;
         boolean isPastCooldownTime = (this.GetCurrentUpdateCount() - invaderShootingLastTime) > invaderShootingCooldownPeriod;
-        if(isPastInitialDely && isPastCooldownTime){
+        if(isPastInitialDelay && isPastCooldownTime){
             eventResolution.Push(new InvaderShipShoot());
             invaderShootingLastTime = this.GetCurrentUpdateCount();
         }
@@ -207,10 +206,10 @@ public class Game extends Canvas implements Runnable, GameTimer {
         }
 
         Graphics graphics = bs.getDrawGraphics();
+        Graphics2D graphics2D = (Graphics2D) graphics;
+
         graphics.setColor(COLOR_BACKGROUND);
         graphics.fillRect(0, 0, getWidth(), getHeight());
-
-        Graphics2D graphics2D = (Graphics2D) graphics;
 
         Stream
             .of(
