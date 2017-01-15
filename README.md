@@ -20,7 +20,14 @@ Visual representation | Package and class name | Type
 <img src="readme-resources/Flow diagram for SpaceInvaders.png" alt="Explosion" width="350"/> 
 
 # Game mechanics
-# Points
+## Controls
+| Action | Key      |
+|--------|----------|
+| ⤎ Move Left   | A       |
+| Move Right ⤏  | D        |
+| Shoot 💥 | Spacebar |
+
+## Points
 Points are gained by destroying invader ships, 100 points per each. Bonus points are added for each destroyed ship depending on the time it was destroyed. The sooner in gameplay ship gets destroyed the more bonus points are gained.
 
 Bonus points are given by following function:
