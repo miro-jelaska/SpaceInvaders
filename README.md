@@ -5,6 +5,10 @@ Game of Space Invaders created in Java without any game engine.
 
 Runnable JAR can be found at [SpaceInvaders/readme-resources/SpaceInvaders-MiroslavJelaska.jar](SpaceInvaders/readme-resources/SpaceInvaders-MiroslavJelaska.jar)
 
+Have some questions or want to give a feedback? You can send me a <a href="mailto:mjelaska.public@gmail.com">an email ✉️</a>
+
+**NOTE:** Do you like it? Show it by giving a ⭐️. 🚀
+
 [![Preview of Space Invaders Game in Java (without game engine)](readme-resources/screenshot-youtube.png)](https://youtu.be/QaZ_Egr-PVM "Preview of Space Invaders Game in Java (without game engine)")
 
 # Game elements
