@@ -1,5 +1,4 @@
 [![Code Climate](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders/badges/gpa.svg)](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders)
-[![Test Coverage](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders/badges/coverage.svg)](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders/coverage)
 [![Issue Count](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders/badges/issue_count.svg)](https://codeclimate.com/github/MiroslavJelaska/SpaceInvaders)
 # Space Invaders
 Game of Space Invaders created in Java without any game engine.
